@@ -3,4 +3,5 @@
 export(baixar_pof)
 export(calcular_valor_despesa_mensal_uc)
 export(calcular_valor_rendimento_mensal_uc)
+export(ler_pof_despesa)
 export(ler_pof_geral)

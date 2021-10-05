@@ -1,3 +1,11 @@
+#' Load POF microdata - expenditure information only
+#'
+#' Load POF microdata - expenditure information only
+#' @param microdata_file The specific microdata file to be loaded
+#' @return The file-specific microdata as a dataframe (all cols to character)
+#' @examples ler_pof_despesa("./data/microdatafile.txt");
+#' @export
+
 ler_pof_despesa <- function(microdata_file){
 
   if(!(str_detect(microdata_file,
