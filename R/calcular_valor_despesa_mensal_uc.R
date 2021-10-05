@@ -1,9 +1,10 @@
 calcular_valor_despesa_mensal_uc_one <- function(pof_despesa = 0,
                                                  tipo_despesa = 0,
+                                                 pof_morador,
                                                  uf = "all",
                                                  regiao = "all"){
 
-  pof_uc <- ler_pof_geral("morador") %>%
+  pof_uc <- ler_pof_geral(pof_morador) %>%
     mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC)) %>%
     filter(V0306 == "1") %>%
     select(ID_uc, UF, RENDA_TOTAL, PESO_FINAL) %>%
