@@ -9,12 +9,12 @@
 ler_pof_geral <- function(microdata_file) {
 
   if(str_detect(microdata_file, regex("aluguel_estimado", ignore_case = TRUE))){
-    data(leitor_aluguel_estimado)
+    leitor <- leitor_aluguel_estimado
   }
 
-  leitor_aluguel_estimado$variavel <- as.character(leitor_aluguel_estimado$variavel)
-  colpos <- fwf_widths(leitor_aluguel_estimado$tamanho,
-                       col_names = leitor_aluguel_estimado$variavel)
+  leitor$variavel <- as.character(leitor$variavel)
+  colpos <- fwf_widths(leitor$tamanho,
+                       col_names = leitor$variavel)
   pof_mod <- read_fwf(file = as.character(microdata_file),
                       col_positions = colpos,
                       col_types = cols(.default = col_character()))
