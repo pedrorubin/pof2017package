@@ -7,12 +7,15 @@
 calcular_valor_despesa_mensal_uc(
   pof_despesa = 0,
   tipo_despesa = 0,
+  pof_morador,
   uf = "all",
   regiao = "all"
 )
 }
 \arguments{
 \item{pof_despesa}{The name of the df with the expenditure data (string). Default to load a new df.}
+
+\item{pof_morador}{The path to MORADOR.txt}
 
 \item{tipo_despesa=0}{The type (or types) of expenditure. Default to total expenditure.}
 
