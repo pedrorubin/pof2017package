@@ -6,7 +6,6 @@
 #' @examples baixar_pof("./microdata");
 #' @export
 
-
 baixar_pof <- function(destination_path){
 
   url <- "https://ftp.ibge.gov.br/Orcamentos_Familiares/Pesquisa_de_Orcamentos_Familiares_2017_2018/Microdados/Dados_20210304.zip"
