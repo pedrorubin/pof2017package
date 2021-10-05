@@ -9,8 +9,7 @@
 ler_pof_despesa <- function(microdata_file){
 
   if(!(str_detect(microdata_file,
-                regex("aluguel_estimado | caderneta_coletiva | despesa_coletiva |
-                      despesa_individual | outros_rendimentos | rendimento_trabalho",
+                regex("aluguel_estimado|caderneta_coletiva|despesa_coletiva|despesa_individual|outros_rendimentos|rendimento_trabalho",
                                       ignore_case = TRUE)))){
 
     cat("Os registros de POF 2017-2018 aceitos para a despesa sao: \n
