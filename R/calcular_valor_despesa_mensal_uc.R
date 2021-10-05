@@ -158,10 +158,10 @@ calcular_valor_despesa_mensal_uc <- function(pof_despesa = 0,
                                              regiao = "all"){
 
   lista_pof <- list(pof = pof_despesa,
-                    tipo_despesa_escolha = tipo_despesa)
+                    tipo_despesa_escolha = tipo_despesa,
+                    moradex = pof_morador)
 
-  lista_despesa_uc <- map2_dfr(lista_pof$pof,
-                               lista_pof$tipo_despesa_escolha,
+  lista_despesa_uc <- pmap_dfr(lista_pof,
                                calcular_valor_despesa_mensal_uc_one)
 
   lista_despesa_uc
