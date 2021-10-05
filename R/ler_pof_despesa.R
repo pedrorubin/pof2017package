@@ -107,7 +107,7 @@ ler_pof_despesa <- function(microdata_file){
   }
   else if(str_detect(microdata_file, regex("outros_rendimentos", ignore_case = TRUE))){
 
-    pof <- ler_pof_geral("microdata_file") %>%
+    pof <- ler_pof_geral(microdata_file) %>%
       mutate(across(.cols = c(V8501_DEFLA,V9011,FATOR_ANUALIZACAO,PESO_FINAL),
                     .fns = as.numeric)) %>%
       mutate(ID_uc = str_c(COD_UPA,NUM_DOM,NUM_UC),
