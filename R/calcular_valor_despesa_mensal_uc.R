@@ -141,6 +141,7 @@ calcular_valor_despesa_mensal_uc_one <- function(pof_despesa = 0,
 #' Mean monthly expenditure values (by type of expenditure)
 #' @param pof_despesa The name of the df with the expenditure data (string). Default to load a new df.
 #' @param tipo_despesa=0 The type (or types) of expenditure. Default to total expenditure.
+#' @param pof_morador The path to MORADOR.txt
 #' @param uf="all" The relevant federal unit (numeric)
 #' @param regiao="all" The relevant macroregion (character code)
 #' @return The mean deflated monthly expenditure
@@ -151,6 +152,7 @@ calcular_valor_despesa_mensal_uc_one <- function(pof_despesa = 0,
 
 calcular_valor_despesa_mensal_uc <- function(pof_despesa = 0,
                                              tipo_despesa = 0,
+                                             pof_morador,
                                              uf = "all",
                                              regiao = "all"){
 
