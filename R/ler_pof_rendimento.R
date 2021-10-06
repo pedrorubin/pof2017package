@@ -19,7 +19,6 @@ ler_pof_rendimento <- function(microdata_file){
     stop()
   }
 
-  nome_pof_up <- toupper(nome_pof)
 
   if(str_detect(microdata_file, regex("rendimento_trabalho", ignore_case = TRUE))){
 
