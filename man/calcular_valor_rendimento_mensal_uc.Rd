@@ -12,9 +12,11 @@ calcular_valor_rendimento_mensal_uc(
 )
 }
 \arguments{
-\item{pof_rendimento}{The name of the df with the income data (string). Default to load a new df.}
+\item{pof_rendimento}{The name of the df with the income data (string)}
 
 \item{tipo_rendimento=0}{The type (or types) of income. Default to total income.}
+
+\item{path_microdata}{The path to the microdata folder}
 
 \item{uf="all"}{The relevant federal unit (numeric)}
 
@@ -27,6 +29,6 @@ The mean deflated monthly income
 Mean monthly income values (by type of income)
 }
 \examples{
-calcular_valor_rendimento_mensal_uc(tipo_despesa = c(0,1,2));
+calcular_valor_rendimento_mensal_uc(tipo_despesa = c(0,1,2), path_midrodata = "./microdata_folder");
 calcular_valor_rendimento_mensal_uc(pof_rendimento = "df_income", tipo_despesa = c(0,1,2), regiao = "SE");
 }

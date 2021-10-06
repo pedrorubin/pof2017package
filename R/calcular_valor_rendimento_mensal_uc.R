@@ -1,5 +1,6 @@
-calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento = 0,
+calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
                                                     tipo_rendimento = 0,
+                                                    path_microdata,
                                                     uf = "all",
                                                     regiao = "all"){
 
@@ -9,14 +10,7 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento = 0,
 
   #rendimento
   if(indicador_rend == 1){
-
-    if(pof_rendimento == 0){
-      lista_pofs <- c("rendimento_trabalho","outros_rendimentos")
-      pof_rendimentox <- map_dfr(lista_pofs, ler_pof_rendimento)
-    }
-    else{
       pof_rendimentox <- get(pof_rendimento)
-    }
 
     if(tipo_rendimento %in% c(11,12,13,14)){
       pof_rendimento_grupo <- pof_rendimentox %>%
@@ -43,16 +37,7 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento = 0,
   #rendimento nao monetario
   if(indicador_naomonet == 1){
 
-    if(pof_rendimento == 0){
-      lista_pofs <- c("despesa_coletiva",
-                      "caderneta_coletiva",
-                      "despesa_individual")
-      pof_rendimentox1 <- map_dfr(lista_pofs, ler_pof_rendimento)
-    }
-    else{
-      pof_rendimentox1 <- get(pof_rendimento)
-    }
-
+    pof_rendimentox1 <- get(pof_rendimento)
 
     parte1 <- pof_rendimentox1 %>%
       filter(pof %in% c("DESPESA_COLETIVA",
@@ -66,14 +51,7 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento = 0,
 
     # print(parte1 %>% dim())
 
-    if(pof_rendimento == 0){
-      pof_rendimentox2 <- ler_pof_rendimento("aluguel_estimado")
-    }
-    else{
-      pof_rendimentox2 <- get(pof_rendimento)
-    }
-
-    aluguel <- pof_rendimentox2 %>%
+    aluguel <- get(pof_rendimento) %>%
       filter(pof == "ALUGUEL_ESTIMADO")
 
     parte2a <- aluguel %>%
@@ -88,14 +66,7 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento = 0,
 
 
 
-    if(pof_rendimento == 0){
-      pof_rendimentox2b <- ler_pof_rendimento("despesa_coletiva")
-    }
-    else{
-      pof_rendimentox2b <- get(pof_rendimento)
-    }
-
-    despesa_coletiva <- pof_rendimentox2b %>%
+    despesa_coletiva <- get(pof_rendimento) %>%
       filter(pof == "DESPESA_COLETIVA")
 
     parte2b <- despesa_coletiva %>%
@@ -106,7 +77,8 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento = 0,
       summarise(dif2b = sum(valor_mensal),
                 PESO_FINAL = unique(PESO_FINAL))
 
-    parte2 <- parte2a %>% left_join(parte2b, by = c("ID_uc", "PESO_FINAL")) %>%
+    parte2 <- parte2a %>%
+      left_join(parte2b, by = c("ID_uc", "PESO_FINAL")) %>%
       replace(is.na(.),0) %>%
       mutate(dif2 = dif2a - dif2b) %>%
       filter(dif2 > 0) %>%
@@ -126,7 +98,9 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento = 0,
   # variacao patrimonial
   if(indicador_patrimonial == 1){
 
-    outros_rendimentos <- ler_pof_geral("outros_rendimentos") %>%
+    path_outros <- str_c(path_microdata,"/OUTROS_RENDIMENTOS.txt")
+
+    outros_rendimentos <- ler_pof_geral(path_outros) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
              across(.cols = c(V9001, V8500_DEFLA,
@@ -299,12 +273,14 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento = 0,
         11 - rendimento do trabalho \n
         12 - transferencias \n
         13 - renda de aluguel \n
-        14 - outras renda \n
+        14 - outras rendas \n
         15 - rendimento nao monetario")
     stop()
   }
 
-  pof_calculo <- ler_pof_geral("morador") %>%
+  path_morador <- str_c(path_microdata,"/MORADOR.txt")
+
+  pof_calculo <- ler_pof_geral(path_morador) %>%
     mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC)) %>%
     filter(V0306 == "1") %>%
     select(ID_uc, PESO_FINAL, UF) %>%
@@ -326,13 +302,14 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento = 0,
 #' Mean monthly income values (by type of income)
 #'
 #' Mean monthly income values (by type of income)
-#' @param pof_rendimento The name of the df with the income data (string). Default to load a new df.
+#' @param pof_rendimento The name of the df with the income data (string)
 #' @param tipo_rendimento=0 The type (or types) of income. Default to total income.
+#' @param path_microdata The path to the microdata folder
 #' @param uf="all" The relevant federal unit (numeric)
 #' @param regiao="all" The relevant macroregion (character code)
 #' @return The mean deflated monthly income
 #' @examples
-#' calcular_valor_rendimento_mensal_uc(tipo_despesa = c(0,1,2));
+#' calcular_valor_rendimento_mensal_uc(tipo_despesa = c(0,1,2), path_midrodata = "./microdata_folder");
 #' calcular_valor_rendimento_mensal_uc(pof_rendimento = "df_income", tipo_despesa = c(0,1,2), regiao = "SE");
 #' @export
 
