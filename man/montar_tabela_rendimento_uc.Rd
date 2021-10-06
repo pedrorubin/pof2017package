@@ -5,7 +5,7 @@
 \title{UC's monthly income values (by type of income)}
 \usage{
 montar_tabela_rendimento_uc(
-  pof_rendimento = 0,
+  pof_rendimento,
   tipo_rendimento = 0,
   path_microdata,
   uf = "all",
@@ -13,15 +13,15 @@ montar_tabela_rendimento_uc(
 )
 }
 \arguments{
-\item{pof_rendimento}{The name of the df with the income data (string).}
+\item{pof_rendimento}{The name of the df with the income data (string). See ler_pof_rendimento.}
 
 \item{path_microdata}{The path to the microdata folder}
 
-\item{tipo_rendimento=0}{The type (or types) of income. Default to total income.}
+\item{tipo_rendimento=0}{The type (or types) of income. Default to total income. See indice_rendimento}
 
-\item{uf="all"}{The relevant federal unit (numeric)}
+\item{uf="all"}{The relevant federal unit (numeric). NOT IMPLEMENTED YET}
 
-\item{regiao="all"}{The relevant macroregion (character code)}
+\item{regiao="all"}{The relevant macroregion (character code). NOT IMPLEMENTED YET}
 }
 \value{
 A datafram with all UC, with the relevant income values as columns
@@ -30,6 +30,5 @@ A datafram with all UC, with the relevant income values as columns
 UC's monthly income values (by type of income)
 }
 \examples{
-montar_tabela_rendimento_uc(tipo_rendimento = c(0,1,2));
-montar_tabela_rendimento_uc(pof_rendimento = "df_income", tipo_rendimento = c(0,1,2), regiao = "N");
+montar_tabela_rendimento_uc(pof_rendimento = "df_income", tipo_rendimento = c(0,1,2), path_midrodata = "./microdata_folder");
 }

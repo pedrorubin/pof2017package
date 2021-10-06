@@ -302,18 +302,17 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
 #' Mean monthly income values (by type of income)
 #'
 #' Mean monthly income values (by type of income)
-#' @param pof_rendimento The name of the df with the income data (string)
-#' @param tipo_rendimento=0 The type (or types) of income. Default to total income.
+#' @param pof_rendimento The name of the df with the income data (string). See ler_pof_rendimento.
+#' @param tipo_rendimento=0 The type (or types) of income. Default to total income. See indice_rendimento
 #' @param path_microdata The path to the microdata folder
-#' @param uf="all" The relevant federal unit (numeric)
-#' @param regiao="all" The relevant macroregion (character code)
+#' @param uf="all" The relevant federal unit (numeric). NOT IMPLEMENTED YET
+#' @param regiao="all" The relevant macroregion (character code). NOT IMPLEMENTED YET
 #' @return The mean deflated monthly income
 #' @examples
-#' calcular_valor_rendimento_mensal_uc(tipo_despesa = c(0,1,2), path_midrodata = "./microdata_folder");
-#' calcular_valor_rendimento_mensal_uc(pof_rendimento = "df_income", tipo_despesa = c(0,1,2), regiao = "SE");
+#' calcular_valor_rendimento_mensal_uc(pof_rendimento = "df_income", tipo_despesa = c(0,1,2), path_midrodata = "./microdata_folder");
 #' @export
 
-calcular_valor_rendimento_mensal_uc <- function(pof_rendimento = 0,
+calcular_valor_rendimento_mensal_uc <- function(pof_rendimento,
                                                 tipo_rendimento = 0,
                                                 path_microdata,
                                                 uf = "all",

@@ -1,4 +1,4 @@
-calcular_valor_despesa_mensal_uc_one <- function(pof_despesa = 0,
+calcular_valor_despesa_mensal_uc_one <- function(pof_despesa,
                                                  tipo_despesa = 0,
                                                  pof_morador,
                                                  uf = "all",
@@ -11,14 +11,7 @@ calcular_valor_despesa_mensal_uc_one <- function(pof_despesa = 0,
     mutate(across(.fns = as.numeric)) %>%
     mutate(numero_familias = sum(PESO_FINAL))
 
-  if(pof_despesa == 0){
-    pof_despesa <- ler_pof_despesa_todas()
-  }
-  else{
-    pof_despesa <- get(pof_despesa)
-  }
-
-  pof_despesax <- pof_despesa %>%
+  pof_despesax <- get(pof_despesa) %>%
     right_join(pof_uc, by = c("ID_uc", "PESO_FINAL"))
 
 
@@ -140,18 +133,17 @@ calcular_valor_despesa_mensal_uc_one <- function(pof_despesa = 0,
 #' Mean monthly expenditure values (by type of expenditure)
 #'
 #' Mean monthly expenditure values (by type of expenditure)
-#' @param pof_despesa The name of the df with the expenditure data (string). Default to load a new df.
-#' @param tipo_despesa=0 The type (or types) of expenditure. Default to total expenditure.
+#' @param pof_despesa The name of the df with the expenditure data (string). See ler_pof_despesa
+#' @param tipo_despesa=0 The type (or types) of expenditure. Default to total expenditure. See indice_despesa
 #' @param pof_morador The path to MORADOR.txt
-#' @param uf="all" The relevant federal unit (numeric)
-#' @param regiao="all" The relevant macroregion (character code)
+#' @param uf="all" The relevant federal unit (numeric). NOT IMPLEMENTED YET
+#' @param regiao="all" The relevant macroregion (character code). NOT IMPLEMENTED YET
 #' @return The mean deflated monthly expenditure
 #' @examples
-#' calcular_valor_despesa_mensal_uc(tipo_despesa = c(0,1,2));
-#' calcular_valor_despesa_mensal_uc(pof_despesa = "df_expenditure", tipo_despesa = c(0,1,2), regiao = "N");
+#' calcular_valor_despesa_mensal_uc(pof_despesa = "df_expenditure", tipo_despesa = c(0,1,2));
 #' @export
 
-calcular_valor_despesa_mensal_uc <- function(pof_despesa = 0,
+calcular_valor_despesa_mensal_uc <- function(pof_despesa,
                                              tipo_despesa = 0,
                                              pof_morador,
                                              uf = "all",

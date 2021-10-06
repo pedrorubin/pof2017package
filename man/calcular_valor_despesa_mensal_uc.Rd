@@ -5,7 +5,7 @@
 \title{Mean monthly expenditure values (by type of expenditure)}
 \usage{
 calcular_valor_despesa_mensal_uc(
-  pof_despesa = 0,
+  pof_despesa,
   tipo_despesa = 0,
   pof_morador,
   uf = "all",
@@ -13,15 +13,15 @@ calcular_valor_despesa_mensal_uc(
 )
 }
 \arguments{
-\item{pof_despesa}{The name of the df with the expenditure data (string). Default to load a new df.}
+\item{pof_despesa}{The name of the df with the expenditure data (string). See ler_pof_despesa}
 
 \item{pof_morador}{The path to MORADOR.txt}
 
-\item{tipo_despesa=0}{The type (or types) of expenditure. Default to total expenditure.}
+\item{tipo_despesa=0}{The type (or types) of expenditure. Default to total expenditure. See indice_despesa}
 
-\item{uf="all"}{The relevant federal unit (numeric)}
+\item{uf="all"}{The relevant federal unit (numeric). NOT IMPLEMENTED YET}
 
-\item{regiao="all"}{The relevant macroregion (character code)}
+\item{regiao="all"}{The relevant macroregion (character code). NOT IMPLEMENTED YET}
 }
 \value{
 The mean deflated monthly expenditure
@@ -30,6 +30,5 @@ The mean deflated monthly expenditure
 Mean monthly expenditure values (by type of expenditure)
 }
 \examples{
-calcular_valor_despesa_mensal_uc(tipo_despesa = c(0,1,2));
-calcular_valor_despesa_mensal_uc(pof_despesa = "df_expenditure", tipo_despesa = c(0,1,2), regiao = "N");
+calcular_valor_despesa_mensal_uc(pof_despesa = "df_expenditure", tipo_despesa = c(0,1,2));
 }
