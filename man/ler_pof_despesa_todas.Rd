@@ -10,7 +10,7 @@ ler_pof_despesa_todas(microdata_folder)
 \item{microdata_folder}{The path to the FOLDER that contains the microdata txt files}
 }
 \value{
-All expenditure information available
+All expenditure information available (as a dataframe)
 }
 \description{
 Load POF microdata - expenditure information only
