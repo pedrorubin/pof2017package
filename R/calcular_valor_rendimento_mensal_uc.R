@@ -18,11 +18,6 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento = 0,
       pof_rendimentox <- get(pof_rendimento)
     }
 
-    tradutor_rendimento <- read_excel("./tradutores/Tradutor_Rendimento.xls") %>%
-      # rename(codigo = Codigo) %>%
-      head(-2) %>%
-      mutate(Codigo = as.numeric(Codigo))
-
     if(tipo_rendimento %in% c(11,12,13,14)){
       pof_rendimento_grupo <- pof_rendimentox %>%
         left_join(tradutor_rendimento, by = "Codigo") %>%
