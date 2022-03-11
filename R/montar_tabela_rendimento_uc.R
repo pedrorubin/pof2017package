@@ -1,8 +1,6 @@
 montar_tabela_rendimento_uc_one <- function(pof_rendimento,
                                             tipo_rendimento = 0,
-                                            path_microdata,
-                                            uf = "all",
-                                            regiao = "all"){
+                                            pof_morador){
 
   indicador_rend <- ifelse(tipo_rendimento %in% c(0,1,11,12,13,14), 1, 0)
   indicador_naomonet <- ifelse(tipo_rendimento %in% c(0,1,15), 1, 0)
@@ -94,20 +92,20 @@ montar_tabela_rendimento_uc_one <- function(pof_rendimento,
   # variacao patrimonial
   if(indicador_patrimonial == 1){
 
-    path_outros <- str_c(path_microdata,"/OUTROS_RENDIMENTOS.txt")
+    # path_outros <-
 
-    outros_rendimentos <- ler_pof_geral(path_outros) %>%
-      mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
-             ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
-             across(.cols = c(V9001, V8500_DEFLA,
-                              V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
-                    .fns = as.numeric)) %>%
-      mutate(valor_mensal = ifelse( QUADRO==54,
-                                    (V8500_DEFLA*V9011*FATOR_ANUALIZACAO)/12,
-                                    (V8500_DEFLA*FATOR_ANUALIZACAO)/12 ),
-             Codigo = trunc(as.numeric(V9001)/100),
-             pof = "OUTROS_RENDIMENTOS",
-             V9002 = NA) %>%
+    outros_rendimentos <- get(df_pof_rendimento_base) %>%
+      filter(pof == "OUTROS_RENDIMENTOS") %>%
+      # mutate(across(.cols = c(V9001, V8500_DEFLA,
+      #                         V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
+      #               .fns = as.numeric)) %>%
+      mutate(
+        # valor_mensal = ifelse( QUADRO==54,
+        #                               (V8500_DEFLA*V9011*FATOR_ANUALIZACAO)/12,
+        #                               (V8500_DEFLA*FATOR_ANUALIZACAO)/12 ),
+        #        Codigo = trunc(as.numeric(V9001)/100),
+        pof = "OUTROS_RENDIMENTOS",
+        V9002 = NA) %>%
       select(ID_uc, ID_pes, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
 
 
@@ -272,18 +270,9 @@ montar_tabela_rendimento_uc_one <- function(pof_rendimento,
     stop()
   }
 
-  path_morador <- str_c(path_microdata,"/MORADOR.txt")
-
-  pof_calculo <- ler_pof_geral(path_morador) %>%
-    mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC)) %>%
-    filter(V0306 == "1") %>%
-    select(ID_uc, PESO_FINAL) %>%
-    mutate(across(.fns = as.numeric),
-           numero_familias = sum(PESO_FINAL)) %>%
-    left_join(pof_final, by = c("ID_uc", "PESO_FINAL"))
 
 
-  pof_calculo
+  pof_final
 
 }
 
@@ -292,9 +281,7 @@ montar_tabela_rendimento_uc_one <- function(pof_rendimento,
 #' UC's monthly income values (by type of income)
 #' @param pof_rendimento The name of the df with the income data (string). See ler_pof_rendimento.
 #' @param tipo_rendimento=0 The type (or types) of income. Default to total income. See indice_rendimento
-#' @param path_microdata The path to the microdata folder
-#' @param uf="all" The relevant federal unit (numeric). NOT IMPLEMENTED YET
-#' @param regiao="all" The relevant macroregion (character code). NOT IMPLEMENTED YET
+#' @param pof_morador The path to the microdata folder
 #' @return A datafram with all UC, with the relevant income values as columns
 #' @examples
 #' montar_tabela_rendimento_uc(pof_rendimento = "df_income", tipo_rendimento = c(0,1,2), path_midrodata = "./microdata_folder");
@@ -303,13 +290,11 @@ montar_tabela_rendimento_uc_one <- function(pof_rendimento,
 
 montar_tabela_rendimento_uc <- function(pof_rendimento,
                                         tipo_rendimento = 0,
-                                        path_microdata,
-                                        uf = "all",
-                                        regiao = "all"){
+                                        pof_morador){
 
   lista_pof <- list(pof_rendimento = pof_rendimento,
                     tipo_rendimento = tipo_rendimento,
-                    path_microdata = path_microdata)
+                    pof_morador = pof_morador)
 
   lista_rendimento_uc <- pmap(lista_pof,
                               montar_tabela_rendimento_uc_one)
@@ -317,5 +302,14 @@ montar_tabela_rendimento_uc <- function(pof_rendimento,
   df_rendimento_uc <- lista_rendimento_uc %>%
     reduce(full_join, by = c("ID_uc", "PESO_FINAL", "numero_familias"))
 
-  df_rendimento_uc
+
+  # path_morador <- str_c(path_microdata,"/MORADOR.txt")
+
+  pof_calculo <- get(pof_morador) %>%
+    mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC)) %>%
+    filter(V0306 == "1") %>%
+    # select(ID_uc, PESO_FINAL) %>%
+    mutate(across(.fns = as.numeric),
+           numero_familias = sum(PESO_FINAL)) %>%
+    left_join(pof_final, by = c("ID_uc", "PESO_FINAL"))
 }

@@ -4,24 +4,14 @@
 \alias{montar_tabela_rendimento_uc}
 \title{UC's monthly income values (by type of income)}
 \usage{
-montar_tabela_rendimento_uc(
-  pof_rendimento,
-  tipo_rendimento = 0,
-  path_microdata,
-  uf = "all",
-  regiao = "all"
-)
+montar_tabela_rendimento_uc(pof_rendimento, tipo_rendimento = 0, pof_morador)
 }
 \arguments{
 \item{pof_rendimento}{The name of the df with the income data (string). See ler_pof_rendimento.}
 
-\item{path_microdata}{The path to the microdata folder}
+\item{pof_morador}{The path to the microdata folder}
 
 \item{tipo_rendimento=0}{The type (or types) of income. Default to total income. See indice_rendimento}
-
-\item{uf="all"}{The relevant federal unit (numeric). NOT IMPLEMENTED YET}
-
-\item{regiao="all"}{The relevant macroregion (character code). NOT IMPLEMENTED YET}
 }
 \value{
 A datafram with all UC, with the relevant income values as columns
