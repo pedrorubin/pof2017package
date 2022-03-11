@@ -102,9 +102,7 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
 
     outros_rendimentos <- get(pof_rendimento) %>%
       filter(pof == "OUTROS_RENDIMENTOS") %>%
-      mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
-             ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
-             across(.cols = c(V9001, V8500_DEFLA,
+      mutate(across(.cols = c(V9001, V8500_DEFLA,
                               V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
                     .fns = as.numeric)) %>%
       mutate(valor_mensal = ifelse( QUADRO==54,

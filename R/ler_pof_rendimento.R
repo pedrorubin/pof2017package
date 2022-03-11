@@ -28,7 +28,7 @@ ler_pof_rendimento <- function(arquivo_microdados){
 
     ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
-             ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
+             ID_pes = NA,
              across(.cols = c(V9001, V8500_DEFLA,
                               V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
                     .fns = as.numeric)) %>%
@@ -37,7 +37,7 @@ ler_pof_rendimento <- function(arquivo_microdados){
              Codigo = trunc(as.numeric(V9001)/100),
              pof = "RENDIMENTO_TRABALHO",
              V9002 = NA) %>%
-      select(ID_uc, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
+      select(ID_uc, ID_pes, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
   }
   else if(str_detect(arquivo_microdados, regex("outros_rendimentos", ignore_case = TRUE))){
 
@@ -53,7 +53,7 @@ ler_pof_rendimento <- function(arquivo_microdados){
              Codigo = trunc(as.numeric(V9001)/100),
              pof = "OUTROS_RENDIMENTOS",
              V9002 = NA) %>%
-      select(ID_uc, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
+      select(ID_uc, ID_pes, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
 
 
   }
@@ -61,33 +61,33 @@ ler_pof_rendimento <- function(arquivo_microdados){
 
     ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
-             ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
+             ID_pes = NA,
              across(.fns = as.numeric),
              valor_mensal = ifelse( QUADRO==10|QUADRO==19,
                                     (V8000_DEFLA*V9011*FATOR_ANUALIZACAO)/12,
                                     (V8000_DEFLA*FATOR_ANUALIZACAO)/12),
              Codigo = trunc(V9001/100),
              pof = "DESPESA_COLETIVA") %>%
-      select(ID_uc, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
+      select(ID_uc, ID_pes, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
   }
   else if(str_detect(arquivo_microdados, regex("caderneta_coletiva", ignore_case = TRUE))){
 
     ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
-             ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
+             ID_pes = NA,
              across(.fns = as.numeric)) %>%
       filter(V9002 >= 7) %>%
       mutate(valor_mensal = (V8000_DEFLA*FATOR_ANUALIZACAO)/12,
              Codigo = trunc(V9001/100),
              pof = "CADERNETA_COLETIVA") %>%
-      select(ID_uc, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
+      select(ID_uc, ID_pes, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
 
   }
   else if(str_detect(arquivo_microdados, regex("despesa_individual", ignore_case = TRUE))){
 
     ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
-             ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
+             ID_pes = NA,
              across(.fns = as.numeric)) %>%
       filter(V9002 >= 7) %>%
       mutate(valor_mensal = ifelse( QUADRO==44|QUADRO==47|QUADRO==48|QUADRO==49|QUADRO==50 ,
@@ -95,18 +95,18 @@ ler_pof_rendimento <- function(arquivo_microdados){
                                     V8000_DEFLA*FATOR_ANUALIZACAO/12),
              Codigo = trunc(V9001/100),
              pof = "DESPESA_INDIVIDUAL") %>%
-      select(ID_uc, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
+      select(ID_uc, ID_pes, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
   }
   else if(str_detect(arquivo_microdados, regex("aluguel_estimado", ignore_case = TRUE))){
 
     ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
-             ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
+             ID_pes = NA,
              across(.fns = as.numeric),
              valor_mensal = V8000_DEFLA*V9011*FATOR_ANUALIZACAO/12,
              Codigo = trunc(V9001/100),
              pof = "ALUGUEL_ESTIMADO") %>%
-      select(ID_uc, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
+      select(ID_uc, ID_pes, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
   }
   else{
     cat("Os registros POF 2017-2018 validos de rendimento sao: \n
