@@ -4,14 +4,14 @@ calcular_valor_despesa_mensal_uc_one <- function(df_pof_despesa_base,
                                                  uf = "all",
                                                  regiao = "all"){
 
-  pof_uc <- df_pof_morador_base %>%
+  pof_uc <- get(df_pof_morador_base) %>%
     mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC)) %>%
     filter(V0306 == "1") %>%
     select(ID_uc, UF, RENDA_TOTAL, PESO_FINAL) %>%
     mutate(across(.fns = as.numeric)) %>%
     mutate(numero_familias = sum(PESO_FINAL))
 
-  pof_despesax <- df_pof_despesa_base %>%
+  pof_despesax <- get(df_pof_despesa_base) %>%
     right_join(pof_uc, by = c("ID_uc", "PESO_FINAL"))
 
 
@@ -132,9 +132,9 @@ calcular_valor_despesa_mensal_uc_one <- function(df_pof_despesa_base,
 #' Calcular médias mensais de despesa (por tipo de despesa)
 #'
 #' Calcular médias mensais de despesa (por tipo de despesa)
-#' @param df_pof_despesa_base O dataframe com os dados de despesa. Ver ler_pof_despesa
+#' @param df_pof_despesa_base O nome (string) do dataframe com os dados de despesa. Ver ler_pof_despesa
 #' @param tipo_despesa=0 Tipo (ou tipos) de despesa. Ver indice_despesa
-#' @param df_pof_morador_base O dataframe com o registro MORADOR. Ver ler_pof_geral
+#' @param df_pof_morador_base O nome (string) do dataframe com o registro MORADOR. Ver ler_pof_geral
 #' @return O valor médio real mensal do tipo de despesa escolhido
 #' @seealso ler_pof_despesa, ler_pof_despesa_todas, montar_tabela_despesa_uc
 #' @examples

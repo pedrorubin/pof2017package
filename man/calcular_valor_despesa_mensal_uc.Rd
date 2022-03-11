@@ -13,9 +13,9 @@ calcular_valor_despesa_mensal_uc(
 )
 }
 \arguments{
-\item{df_pof_despesa_base}{O dataframe com os dados de despesa. Ver ler_pof_despesa}
+\item{df_pof_despesa_base}{O nome (string) do dataframe com os dados de despesa. Ver ler_pof_despesa}
 
-\item{df_pof_morador_base}{O dataframe com o registro MORADOR. Ver ler_pof_geral}
+\item{df_pof_morador_base}{O nome (string) do dataframe com o registro MORADOR. Ver ler_pof_geral}
 
 \item{tipo_despesa=0}{Tipo (ou tipos) de despesa. Ver indice_despesa}
 }
