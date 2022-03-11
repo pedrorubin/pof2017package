@@ -94,7 +94,7 @@ montar_tabela_rendimento_uc_one <- function(pof_rendimento,
 
     # path_outros <-
 
-    outros_rendimentos <- get(df_pof_rendimento_base) %>%
+    outros_rendimentos <- get(pof_rendimento) %>%
       filter(pof == "OUTROS_RENDIMENTOS") %>%
       # mutate(across(.cols = c(V9001, V8500_DEFLA,
       #                         V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
