@@ -2,23 +2,32 @@
 % Please edit documentation in R/montar_tabela_rendimento_uc.R
 \name{montar_tabela_rendimento_uc}
 \alias{montar_tabela_rendimento_uc}
-\title{UC's monthly income values (by type of income)}
+\title{Montar tabela com rendimento mensal de cada UC (por tipo de rendimento)}
 \usage{
-montar_tabela_rendimento_uc(pof_rendimento, tipo_rendimento = 0, pof_morador)
+montar_tabela_rendimento_uc(
+  df_pof_rendimento_base,
+  tipo_rendimento = 0,
+  df_pof_morador_base
+)
 }
 \arguments{
-\item{pof_rendimento}{The name of the df with the income data (string). See ler_pof_rendimento.}
+\item{df_pof_rendimento_base}{O nome (string) do dataframe com os dados de rendimento. Ver ler_pof_rendimento}
 
-\item{pof_morador}{The path to the microdata folder}
+\item{df_pof_morador_base}{O nome (string) do dataframe com o registro MORADOR. Ver ler_pof_geral}
 
-\item{tipo_rendimento=0}{The type (or types) of income. Default to total income. See indice_rendimento}
+\item{tipo_rendimento=0}{Tipo (ou tipos) de rendimento. Ver indice_rendimento}
 }
 \value{
-A datafram with all UC, with the relevant income values as columns
+Um dataframe com todas as UC (registro MORADOR) com os valores de cada tipo de rendimento como colunas
 }
 \description{
-UC's monthly income values (by type of income)
+Montar tabela com rendimento mensal de cada UC (por tipo de rendimento)
 }
 \examples{
-montar_tabela_rendimento_uc(pof_rendimento = "df_income", tipo_rendimento = c(0,1,2), path_midrodata = "./microdata_folder");
+montar_tabela_rendimento_uc(df_pof_rendimento_base = "pof_rendimento",
+tipo_rendimento = c(0,1,2),
+df_pof_morador_base = "pof_morador");
+}
+\seealso{
+ler_pof_rendimento, ler_pof_rendimento_todas, calcular_rendimento_media
 }

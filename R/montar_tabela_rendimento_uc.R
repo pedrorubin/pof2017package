@@ -1,6 +1,6 @@
-montar_tabela_rendimento_uc_one <- function(pof_rendimento,
+montar_tabela_rendimento_uc_one <- function(df_pof_rendimento_base,
                                             tipo_rendimento = 0,
-                                            pof_morador){
+                                            df_pof_morador_base){
 
   indicador_rend <- ifelse(tipo_rendimento %in% c(0,1,11,12,13,14), 1, 0)
   indicador_naomonet <- ifelse(tipo_rendimento %in% c(0,1,15), 1, 0)
@@ -9,7 +9,7 @@ montar_tabela_rendimento_uc_one <- function(pof_rendimento,
   #rendimento
   if(indicador_rend == 1){
 
-    pof_rendimentox <- get(pof_rendimento)
+    pof_rendimentox <- get(df_pof_rendimento_base)
 
     if(tipo_rendimento %in% c(11,12,13,14)){
       pof_rendimento_grupo <- pof_rendimentox %>%
@@ -36,7 +36,7 @@ montar_tabela_rendimento_uc_one <- function(pof_rendimento,
   #rendimento nao monetario
   if(indicador_naomonet == 1){
 
-    parte1 <- get(pof_rendimento) %>%
+    parte1 <- get(df_pof_rendimento_base) %>%
       filter(pof %in% c("DESPESA_COLETIVA",
                         "DESPESA_INDIVIDUAL",
                         "CADERNETA_COLETIVA"),
@@ -47,7 +47,7 @@ montar_tabela_rendimento_uc_one <- function(pof_rendimento,
       ungroup()
 
 
-    aluguel <- get(pof_rendimento) %>%
+    aluguel <- get(df_pof_rendimento_base) %>%
       filter(pof == "ALUGUEL_ESTIMADO")
 
     parte2a <- aluguel %>%
@@ -61,7 +61,7 @@ montar_tabela_rendimento_uc_one <- function(pof_rendimento,
                                12023:12025, 12027:12036,12999)
 
 
-    despesa_coletiva <- get(pof_rendimento) %>%
+    despesa_coletiva <- get(df_pof_rendimento_base) %>%
       filter(pof == "DESPESA_COLETIVA")
 
     parte2b <- despesa_coletiva %>%
@@ -94,7 +94,7 @@ montar_tabela_rendimento_uc_one <- function(pof_rendimento,
 
     # path_outros <-
 
-    outros_rendimentos <- get(pof_rendimento) %>%
+    outros_rendimentos <- get(df_pof_rendimento_base) %>%
       filter(pof == "OUTROS_RENDIMENTOS") %>%
       # mutate(across(.cols = c(V9001, V8500_DEFLA,
       #                         V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
@@ -276,25 +276,28 @@ montar_tabela_rendimento_uc_one <- function(pof_rendimento,
 
 }
 
-#' UC's monthly income values (by type of income)
+#' Montar tabela com rendimento mensal de cada UC (por tipo de rendimento)
 #'
-#' UC's monthly income values (by type of income)
-#' @param pof_rendimento The name of the df with the income data (string). See ler_pof_rendimento.
-#' @param tipo_rendimento=0 The type (or types) of income. Default to total income. See indice_rendimento
-#' @param pof_morador The path to the microdata folder
-#' @return A datafram with all UC, with the relevant income values as columns
+#' Montar tabela com rendimento mensal de cada UC (por tipo de rendimento)
+#' @param df_pof_rendimento_base O nome (string) do dataframe com os dados de rendimento. Ver ler_pof_rendimento
+#' @param tipo_rendimento=0 Tipo (ou tipos) de rendimento. Ver indice_rendimento
+#' @param df_pof_morador_base O nome (string) do dataframe com o registro MORADOR. Ver ler_pof_geral
+#' @return Um dataframe com todas as UC (registro MORADOR) com os valores de cada tipo de rendimento como colunas
+#' @seealso ler_pof_rendimento, ler_pof_rendimento_todas, calcular_rendimento_media
 #' @examples
-#' montar_tabela_rendimento_uc(pof_rendimento = "df_income", tipo_rendimento = c(0,1,2), path_midrodata = "./microdata_folder");
+#' montar_tabela_rendimento_uc(df_pof_rendimento_base = "pof_rendimento",
+#' tipo_rendimento = c(0,1,2),
+#' df_pof_morador_base = "pof_morador");
 #' @export
 
 
-montar_tabela_rendimento_uc <- function(pof_rendimento,
+montar_tabela_rendimento_uc <- function(df_pof_rendimento_base,
                                         tipo_rendimento = 0,
-                                        pof_morador){
+                                        df_pof_morador_base){
 
-  lista_pof <- list(pof_rendimento = pof_rendimento,
+  lista_pof <- list(df_pof_rendimento_base = df_pof_rendimento_base,
                     tipo_rendimento = tipo_rendimento,
-                    pof_morador = pof_morador)
+                    df_pof_morador_base = df_pof_morador_base)
 
   lista_rendimento_uc <- pmap(lista_pof,
                               montar_tabela_rendimento_uc_one)
@@ -305,7 +308,7 @@ montar_tabela_rendimento_uc <- function(pof_rendimento,
 
   # path_morador <- str_c(path_microdata,"/MORADOR.txt")
 
-  pof_calculo <- get(pof_morador) %>%
+  pof_calculo <- get(df_pof_morador_base) %>%
     mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC)) %>%
     filter(V0306 == "1") %>%
     # select(ID_uc, PESO_FINAL) %>%

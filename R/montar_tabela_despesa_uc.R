@@ -118,7 +118,9 @@ montar_tabela_despesa_uc_one <- function(df_pof_despesa_base,
 #' @return Um dataframe com todas as UC (registro MORADOR) com os valores de cada tipo de despesa como colunas
 #' @seealso ler_pof_despesa, ler_pof_despesa_todas, calcular_despesa_media
 #' @examples
-#' montar_tabela_despesa_uc(df_pof_despesa_base = "pof_despesa", tipo_despesa = c(0,1,2), df_pof_morador_base = "pof_morador");
+#' montar_tabela_despesa_uc(df_pof_despesa_base = "pof_despesa",
+#' tipo_despesa = c(0,1,2),
+#' df_pof_morador_base = "pof_morador");
 #' @export
 
 montar_tabela_despesa_uc <- function(df_pof_despesa_base,

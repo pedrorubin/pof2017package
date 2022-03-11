@@ -24,7 +24,9 @@ Um dataframe com todas as UC (registro MORADOR) com os valores de cada tipo de d
 Montar tabela com despesa mensal de cada UC (por tipo de despesa)
 }
 \examples{
-montar_tabela_despesa_uc(df_pof_despesa_base = "pof_despesa", tipo_despesa = c(0,1,2), df_pof_morador_base = "pof_morador");
+montar_tabela_despesa_uc(df_pof_despesa_base = "pof_despesa",
+tipo_despesa = c(0,1,2),
+df_pof_morador_base = "pof_morador");
 }
 \seealso{
 ler_pof_despesa, ler_pof_despesa_todas, calcular_despesa_media
