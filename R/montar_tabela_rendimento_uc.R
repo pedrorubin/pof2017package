@@ -300,7 +300,7 @@ montar_tabela_rendimento_uc <- function(pof_rendimento,
                               montar_tabela_rendimento_uc_one)
 
   df_rendimento_uc <- lista_rendimento_uc %>%
-    reduce(full_join, by = c("ID_uc", "PESO_FINAL", "numero_familias"))
+    reduce(full_join, by = c("ID_uc", "PESO_FINAL"))
 
 
   # path_morador <- str_c(path_microdata,"/MORADOR.txt")
