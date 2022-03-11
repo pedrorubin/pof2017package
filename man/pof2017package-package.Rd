@@ -4,12 +4,12 @@
 \name{pof2017package-package}
 \alias{pof2017package}
 \alias{pof2017package-package}
-\title{pof2017package: POF (IBGE, Brazil) Data Organized}
+\title{pof2017package: Dados da POF 2017-2018 (IBGE) organizados}
 \description{
-This package aims to provide summary statistics and family-specific data concerning expenditure and income, available at the Brazilian Household Budget Survey (POF - IBGE).
+Esse pacote tem como objetivos facilitar o acesso e análise da POF. Contém funções para baixar os dados, encontrar médias de despesa e rendimento e montar tabelas com dados de despesa e rendimento para cada unidade de consumo.
 }
 \author{
-\strong{Maintainer}: Pedro Rubin \email{prubincosta@gmail.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Pedro Rubin \email{prubincosta@gmail.com}
 
 }
 \keyword{internal}

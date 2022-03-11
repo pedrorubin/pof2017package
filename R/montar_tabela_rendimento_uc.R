@@ -265,7 +265,7 @@ montar_tabela_rendimento_uc_one <- function(df_pof_rendimento_base,
         11 - rendimento do trabalho \n
         12 - transferencias \n
         13 - renda de aluguel \n
-        14 - outras renda \n
+        14 - outras rendas \n
         15 - rendimento nao monetario")
     stop()
   }
