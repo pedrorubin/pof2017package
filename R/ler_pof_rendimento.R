@@ -28,6 +28,7 @@ ler_pof_rendimento <- function(arquivo_microdados){
 
     ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
+             ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
              across(.cols = c(V9001, V8500_DEFLA,
                               V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
                     .fns = as.numeric)) %>%
@@ -42,6 +43,7 @@ ler_pof_rendimento <- function(arquivo_microdados){
 
     ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
+             ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
              across(.cols = c(V9001, V8500_DEFLA,
                               V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
                     .fns = as.numeric)) %>%
@@ -59,6 +61,7 @@ ler_pof_rendimento <- function(arquivo_microdados){
 
     ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
+             ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
              across(.fns = as.numeric),
              valor_mensal = ifelse( QUADRO==10|QUADRO==19,
                                     (V8000_DEFLA*V9011*FATOR_ANUALIZACAO)/12,
@@ -71,6 +74,7 @@ ler_pof_rendimento <- function(arquivo_microdados){
 
     ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
+             ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
              across(.fns = as.numeric)) %>%
       filter(V9002 >= 7) %>%
       mutate(valor_mensal = (V8000_DEFLA*FATOR_ANUALIZACAO)/12,
@@ -83,6 +87,7 @@ ler_pof_rendimento <- function(arquivo_microdados){
 
     ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
+             ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
              across(.fns = as.numeric)) %>%
       filter(V9002 >= 7) %>%
       mutate(valor_mensal = ifelse( QUADRO==44|QUADRO==47|QUADRO==48|QUADRO==49|QUADRO==50 ,
@@ -96,6 +101,7 @@ ler_pof_rendimento <- function(arquivo_microdados){
 
     ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
+             ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
              across(.fns = as.numeric),
              valor_mensal = V8000_DEFLA*V9011*FATOR_ANUALIZACAO/12,
              Codigo = trunc(V9001/100),
