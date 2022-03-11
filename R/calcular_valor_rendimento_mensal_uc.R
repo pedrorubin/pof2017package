@@ -98,9 +98,10 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
   # variacao patrimonial
   if(indicador_patrimonial == 1){
 
-    path_outros <- str_c(path_microdata,"/OUTROS_RENDIMENTOS.txt")
+    # path_outros <-
 
-    outros_rendimentos <- ler_pof_geral(path_outros) %>%
+    outros_rendimentos <- get(pof_rendimento) %>%
+      filter(pof == "OUTROS_RENDIMENTOS") %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
              across(.cols = c(V9001, V8500_DEFLA,
