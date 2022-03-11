@@ -1,6 +1,6 @@
-calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
+calcular_valor_rendimento_mensal_uc_one <- function(df_pof_rendimento_base,
                                                     tipo_rendimento = 0,
-                                                    pof_morador,
+                                                    df_pof_morador_base,
                                                     uf = "all",
                                                     regiao = "all"){
 
@@ -10,7 +10,7 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
 
   #rendimento
   if(indicador_rend == 1){
-      pof_rendimentox <- get(pof_rendimento)
+      pof_rendimentox <- get(df_pof_rendimento_base)
 
     if(tipo_rendimento %in% c(11,12,13,14)){
       pof_rendimento_grupo <- pof_rendimentox %>%
@@ -37,7 +37,7 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
   #rendimento nao monetario
   if(indicador_naomonet == 1){
 
-    pof_rendimentox1 <- get(pof_rendimento)
+    pof_rendimentox1 <- get(df_pof_rendimento_base)
 
     parte1 <- pof_rendimentox1 %>%
       filter(pof %in% c("DESPESA_COLETIVA",
@@ -51,7 +51,7 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
 
     # print(parte1 %>% dim())
 
-    aluguel <- get(pof_rendimento) %>%
+    aluguel <- get(df_pof_rendimento_base) %>%
       filter(pof == "ALUGUEL_ESTIMADO")
 
     parte2a <- aluguel %>%
@@ -66,7 +66,7 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
 
 
 
-    despesa_coletiva <- get(pof_rendimento) %>%
+    despesa_coletiva <- get(df_pof_rendimento_base) %>%
       filter(pof == "DESPESA_COLETIVA")
 
     parte2b <- despesa_coletiva %>%
@@ -100,7 +100,7 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
 
     # path_outros <-
 
-    outros_rendimentos <- get(pof_rendimento) %>%
+    outros_rendimentos <- get(df_pof_rendimento_base) %>%
       filter(pof == "OUTROS_RENDIMENTOS") %>%
       # mutate(across(.cols = c(V9001, V8500_DEFLA,
       #                         V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
@@ -280,7 +280,7 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
 
   # path_morador <- str_c(path_microdata,"/MORADOR.txt")
 
-  pof_calculo <- get(pof_morador) %>%
+  pof_calculo <- get(df_pof_morador_base) %>%
     mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC)) %>%
     filter(V0306 == "1") %>%
     select(ID_uc, PESO_FINAL, UF) %>%
@@ -299,28 +299,28 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
 
 }
 
-#' Mean monthly income values (by type of income)
+#' Calcular médias mensais de rendimento (por tipo de rendimento)
 #'
-#' Mean monthly income values (by type of income)
-#' @param pof_rendimento The name of the df with the income data (string). See ler_pof_rendimento.
-#' @param tipo_rendimento=0 The type (or types) of income. Default to total income. See indice_rendimento
-#' @param pof_morador The path to the microdata folder
-#' @param uf="all" The relevant federal unit (numeric). NOT IMPLEMENTED YET
-#' @param regiao="all" The relevant macroregion (character code). NOT IMPLEMENTED YET
-#' @return The mean deflated monthly income
+#' Calcular médias mensais de rendimento (por tipo de rendimento)
+#' @param df_pof_rendimento_base O nome (string) do dataframe com os dados de rendimento. Ver ler_pof_rendimento.
+#' @param tipo_rendimento=0 Tipo (ou tipos) de rendimento. Ver indice_rendimento
+#' @param df_pof_morador_base O nome (string) do dataframe com o registro MORADOR. Ver ler_pof_geral
+#' @return O valor médio real mensal do tipo de rendimento escolhido
+#' @seealso ler_pof_rendimento, ler_pof_rendimento_todas, montar_tabela_rendimento_uc
 #' @examples
-#' calcular_valor_rendimento_mensal_uc(pof_rendimento = "df_income", tipo_despesa = c(0,1,2), path_midrodata = "./microdata_folder");
+#' calcular_rendimento_medio(df_pof_rendimento_base = "pof_rendimento",
+#' tipo_rendimento = c(0,1,2),
+#' df_pof_morador_base = "pof_morador");
 #' @export
 
-calcular_valor_rendimento_mensal_uc <- function(pof_rendimento,
-                                                tipo_rendimento = 0,
-                                                pof_morador,
-                                                uf = "all",
-                                                regiao = "all"){
 
-  lista_pof <- list(pof_rendimento = pof_rendimento,
+calcular_rendimento_medio <- function(df_pof_rendimento_base,
+                                                tipo_rendimento = 0,
+                                                df_pof_morador_base){
+
+  lista_pof <- list(df_pof_rendimento_base = df_pof_rendimento_base,
                     tipo_rendimento = tipo_rendimento,
-                    pof_morador = pof_morador)
+                    df_pof_morador_base = df_pof_morador_base)
 
   lista_rendimento_uc <- pmap_dfr(lista_pof,
                                   calcular_valor_rendimento_mensal_uc_one)

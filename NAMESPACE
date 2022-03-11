@@ -2,7 +2,7 @@
 
 export(baixar_pof)
 export(calcular_despesa_media)
-export(calcular_valor_rendimento_mensal_uc)
+export(calcular_rendimento_medio)
 export(ler_pof_despesa)
 export(ler_pof_despesa_todas)
 export(ler_pof_geral)
