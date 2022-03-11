@@ -2,7 +2,7 @@
 % Please edit documentation in R/montar_tabela_despesa_uc.R
 \name{montar_tabela_despesa_uc}
 \alias{montar_tabela_despesa_uc}
-\title{Calcular despesa mensal de cada UC (por tipo de despesa)}
+\title{Montar tabela com despesa mensal de cada UC (por tipo de despesa)}
 \usage{
 montar_tabela_despesa_uc(
   df_pof_despesa_base,
@@ -21,11 +21,11 @@ montar_tabela_despesa_uc(
 Um dataframe com todas as UC (registro MORADOR) com os valores de cada tipo de despesa como colunas
 }
 \description{
-Calcular despesa mensal de cada UC (por tipo de despesa)
+Montar tabela com despesa mensal de cada UC (por tipo de despesa)
 }
 \examples{
 montar_tabela_despesa_uc(df_pof_despesa_base = "pof_despesa", tipo_despesa = c(0,1,2), df_pof_morador_base = "pof_morador");
 }
 \seealso{
-ler_pof_despesa, ler_pof_despesa_todas, calcular_valor_despesa_mensal_uc
+ler_pof_despesa, ler_pof_despesa_todas, calcular_despesa_media
 }
