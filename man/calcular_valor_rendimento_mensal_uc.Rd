@@ -7,7 +7,7 @@
 calcular_valor_rendimento_mensal_uc(
   pof_rendimento,
   tipo_rendimento = 0,
-  path_microdata,
+  pof_morador,
   uf = "all",
   regiao = "all"
 )
@@ -15,7 +15,7 @@ calcular_valor_rendimento_mensal_uc(
 \arguments{
 \item{pof_rendimento}{The name of the df with the income data (string). See ler_pof_rendimento.}
 
-\item{path_microdata}{The path to the microdata folder}
+\item{pof_morador}{The path to the microdata folder}
 
 \item{tipo_rendimento=0}{The type (or types) of income. Default to total income. See indice_rendimento}
 

@@ -1,6 +1,6 @@
 calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
                                                     tipo_rendimento = 0,
-                                                    path_microdata,
+                                                    pof_morador,
                                                     uf = "all",
                                                     regiao = "all"){
 
@@ -279,9 +279,9 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
     stop()
   }
 
-  path_morador <- str_c(path_microdata,"/MORADOR.txt")
+  # path_morador <- str_c(path_microdata,"/MORADOR.txt")
 
-  pof_calculo <- ler_pof_geral(path_morador) %>%
+  pof_calculo <- get(pof_morador) %>%
     mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC)) %>%
     filter(V0306 == "1") %>%
     select(ID_uc, PESO_FINAL, UF) %>%
@@ -305,7 +305,7 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
 #' Mean monthly income values (by type of income)
 #' @param pof_rendimento The name of the df with the income data (string). See ler_pof_rendimento.
 #' @param tipo_rendimento=0 The type (or types) of income. Default to total income. See indice_rendimento
-#' @param path_microdata The path to the microdata folder
+#' @param pof_morador The path to the microdata folder
 #' @param uf="all" The relevant federal unit (numeric). NOT IMPLEMENTED YET
 #' @param regiao="all" The relevant macroregion (character code). NOT IMPLEMENTED YET
 #' @return The mean deflated monthly income
@@ -315,13 +315,13 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
 
 calcular_valor_rendimento_mensal_uc <- function(pof_rendimento,
                                                 tipo_rendimento = 0,
-                                                path_microdata,
+                                                pof_morador,
                                                 uf = "all",
                                                 regiao = "all"){
 
   lista_pof <- list(pof_rendimento = pof_rendimento,
                     tipo_rendimento = tipo_rendimento,
-                    path_microdata = path_microdata)
+                    pof_morador = pof_morador)
 
   lista_rendimento_uc <- pmap_dfr(lista_pof,
                                   calcular_valor_rendimento_mensal_uc_one)
