@@ -129,7 +129,7 @@ montar_tabela_despesa_uc <- function(df_pof_despesa_base,
   #                   tipo_despesa_escolha = tipo_despesa)
 
   lista_pof <- list(df_pof_despesa_base = df_pof_despesa_base,
-                    tipo_despesa = tipo_despesa,
+                    tipo_despesa = tipo_despesa#,
                     # df_pof_morador_base = df_pof_morador_base
                     )
 
