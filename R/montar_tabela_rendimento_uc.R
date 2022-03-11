@@ -311,5 +311,5 @@ montar_tabela_rendimento_uc <- function(pof_rendimento,
     # select(ID_uc, PESO_FINAL) %>%
     mutate(across(.fns = as.numeric),
            numero_familias = sum(PESO_FINAL)) %>%
-    left_join(pof_final, by = c("ID_uc", "PESO_FINAL"))
+    left_join(df_rendimento_uc, by = c("ID_uc", "PESO_FINAL"))
 }
