@@ -2,33 +2,30 @@
 % Please edit documentation in R/montar_tabela_despesa_uc.R
 \name{montar_tabela_despesa_uc}
 \alias{montar_tabela_despesa_uc}
-\title{UC's monthly expenditure values (by type of expenditure)}
+\title{Calcular despesa mensal de cada UC (por tipo de despesa)}
 \usage{
 montar_tabela_despesa_uc(
-  pof_despesa,
+  df_pof_despesa_base,
   tipo_despesa = 0,
-  pof_morador,
-  uf = "all",
-  regiao = "all"
+  df_pof_morador_base
 )
 }
 \arguments{
-\item{pof_despesa}{The name of the df with the expenditure data (string). See ler_pof_despesa}
+\item{df_pof_despesa_base}{O nome (string) do dataframe com os dados de despesa. Ver ler_pof_despesa}
 
-\item{pof_morador}{The path to MORADOR.txt}
+\item{df_pof_morador_base}{O nome (string) do dataframe com o registro MORADOR. Ver ler_pof_geral}
 
-\item{tipo_despesa=0}{The type (or types) of expenditure. Default to total expenditure. See indice_despesa}
-
-\item{uf="all"}{The relevant federal unit (numeric). NOT IMPLEMENTED YET}
-
-\item{regiao="all"}{The relevant macroregion (character code). NOT IMPLEMENTED YET}
+\item{tipo_despesa=0}{Tipo (ou tipos) de despesa. Ver indice_despesa}
 }
 \value{
-A datafram with all UC, with the relevant expenditure values as columns
+Um dataframe com todas as UC (registro MORADOR) com os valores de cada tipo de despesa como colunas
 }
 \description{
-UC's monthly expenditure values (by type of expenditure)
+Calcular despesa mensal de cada UC (por tipo de despesa)
 }
 \examples{
-montar_tabela_despesa_uc(pof_despesa = "df_expenditure", tipo_despesa = c(0,1,2));
+montar_tabela_despesa_uc(df_pof_despesa_base = "pof_despesa", tipo_despesa = c(0,1,2), df_pof_morador_base = "pof_morador");
+}
+\seealso{
+ler_pof_despesa, ler_pof_despesa_todas, calcular_valor_despesa_mensal_uc
 }

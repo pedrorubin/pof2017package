@@ -1,18 +1,16 @@
-montar_tabela_despesa_uc_one <- function(pof_despesa,
+montar_tabela_despesa_uc_one <- function(df_pof_despesa_base,
                                          tipo_despesa = 0,
-                                         pof_morador,
-                                         uf = "all",
-                                         regiao = "all"){
+                                         df_pof_morador_base){
 
-  pof_uc <- ler_pof_geral(pof_morador) %>%
+  pof_uc <- get(df_pof_morador_base) %>%
     mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC)) %>%
     filter(V0306 == "1") %>%
-    select(ID_uc, UF, RENDA_TOTAL, PESO_FINAL) %>%
+    # select(ID_uc, UF, RENDA_TOTAL, PESO_FINAL) %>%
     mutate(across(.fns = as.numeric)) %>%
     mutate(numero_familias = sum(PESO_FINAL))
 
 
-  pof_despesa <- get(pof_despesa) %>%
+  pof_despesa <- get(df_pof_despesa_base) %>%
     right_join(pof_uc, by = c("ID_uc", "PESO_FINAL"))
 
   if(tipo_despesa == 0){
@@ -105,31 +103,28 @@ montar_tabela_despesa_uc_one <- function(pof_despesa,
   }
 }
 
-#' UC's monthly expenditure values (by type of expenditure)
+#' Calcular despesa mensal de cada UC (por tipo de despesa)
 #'
-#' UC's monthly expenditure values (by type of expenditure)
-#' @param pof_despesa The name of the df with the expenditure data (string). See ler_pof_despesa
-#' @param tipo_despesa=0 The type (or types) of expenditure. Default to total expenditure. See indice_despesa
-#' @param pof_morador The path to MORADOR.txt
-#' @param uf="all" The relevant federal unit (numeric). NOT IMPLEMENTED YET
-#' @param regiao="all" The relevant macroregion (character code). NOT IMPLEMENTED YET
-#' @return A datafram with all UC, with the relevant expenditure values as columns
+#' Calcular despesa mensal de cada UC (por tipo de despesa)
+#' @param df_pof_despesa_base O nome (string) do dataframe com os dados de despesa. Ver ler_pof_despesa
+#' @param tipo_despesa=0 Tipo (ou tipos) de despesa. Ver indice_despesa
+#' @param df_pof_morador_base O nome (string) do dataframe com o registro MORADOR. Ver ler_pof_geral
+#' @return Um dataframe com todas as UC (registro MORADOR) com os valores de cada tipo de despesa como colunas
+#' @seealso ler_pof_despesa, ler_pof_despesa_todas, calcular_valor_despesa_mensal_uc
 #' @examples
-#' montar_tabela_despesa_uc(pof_despesa = "df_expenditure", tipo_despesa = c(0,1,2));
+#' montar_tabela_despesa_uc(df_pof_despesa_base = "pof_despesa", tipo_despesa = c(0,1,2), df_pof_morador_base = "pof_morador");
 #' @export
 
-montar_tabela_despesa_uc <- function(pof_despesa,
+montar_tabela_despesa_uc <- function(df_pof_despesa_base,
                                      tipo_despesa = 0,
-                                     pof_morador,
-                                     uf = "all",
-                                     regiao = "all"){
+                                     df_pof_morador_base){
 
-  lista_pof <- list(pof = pof_despesa,
-                    tipo_despesa_escolha = tipo_despesa)
+  # lista_pof <- list(pof = pof_despesa,
+  #                   tipo_despesa_escolha = tipo_despesa)
 
-  lista_pof <- list(pof_despesa = pof_despesa,
+  lista_pof <- list(df_pof_despesa_base = df_pof_despesa_base,
                     tipo_despesa = tipo_despesa,
-                    pof_morador = pof_morador)
+                    df_pof_morador_base = df_pof_morador_base)
 
   lista_despesa_uc <- pmap(lista_pof,
                            montar_tabela_despesa_uc_one)
