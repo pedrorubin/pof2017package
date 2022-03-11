@@ -78,7 +78,7 @@ montar_tabela_despesa_uc_one <- function(df_pof_despesa_base,
                               110401:110407, 110501:110504,
                               110601:110610, 110701:110706,
                               110801:110805, 110901:110904,
-                              111001:111006)){
+                              111001:111004, 111101:111106)){
 
     despesa_nivel <- pof_despesa %>%
       filter(Nivel_4 == tipo_despesa) %>%
