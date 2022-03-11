@@ -102,13 +102,14 @@ calcular_valor_rendimento_mensal_uc_one <- function(pof_rendimento,
 
     outros_rendimentos <- get(pof_rendimento) %>%
       filter(pof == "OUTROS_RENDIMENTOS") %>%
-      mutate(across(.cols = c(V9001, V8500_DEFLA,
-                              V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
-                    .fns = as.numeric)) %>%
-      mutate(valor_mensal = ifelse( QUADRO==54,
-                                    (V8500_DEFLA*V9011*FATOR_ANUALIZACAO)/12,
-                                    (V8500_DEFLA*FATOR_ANUALIZACAO)/12 ),
-             Codigo = trunc(as.numeric(V9001)/100),
+      # mutate(across(.cols = c(V9001, V8500_DEFLA,
+      #                         V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
+      #               .fns = as.numeric)) %>%
+      mutate(
+      # valor_mensal = ifelse( QUADRO==54,
+      #                               (V8500_DEFLA*V9011*FATOR_ANUALIZACAO)/12,
+      #                               (V8500_DEFLA*FATOR_ANUALIZACAO)/12 ),
+      #        Codigo = trunc(as.numeric(V9001)/100),
              pof = "OUTROS_RENDIMENTOS",
              V9002 = NA) %>%
       select(ID_uc, ID_pes, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
