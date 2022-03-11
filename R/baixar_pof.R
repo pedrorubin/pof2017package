@@ -1,12 +1,12 @@
-#' Download and unzip POF microdata
+#' Baixar e descompactar microdados da POF
 #'
-#' Download and unzip POF microdata
-#' @param destination_path The folder in which the microdata files are to be stored (if folder does not exist, it will be created)
-#' @return The microdata files in the designated path
-#' @examples baixar_pof("./microdata");
+#' Baixar e descompactar microdados da POF
+#' @param pasta_destino Pasta na qual os microdados serão guardados (se não existir, será criada automaticamente)
+#' @return Os microdados na pasta designada
+#' @examples baixar_pof("./microdados");
 #' @export
 
-baixar_pof <- function(destination_path){
+baixar_pof <- function(pasta_destino){
 
   url <- "https://ftp.ibge.gov.br/Orcamentos_Familiares/Pesquisa_de_Orcamentos_Familiares_2017_2018/Microdados/Dados_20210304.zip"
 
@@ -14,7 +14,7 @@ baixar_pof <- function(destination_path){
 
   download.file(url,tempFile,quiet=TRUE,mode="wb")
 
-  unzip(file.path(tempFile), exdir = destination_path)
+  unzip(file.path(tempFile), exdir = pasta_destino)
 
 }
 

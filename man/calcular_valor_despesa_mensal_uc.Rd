@@ -2,33 +2,32 @@
 % Please edit documentation in R/calcular_valor_despesa_mensal_uc.R
 \name{calcular_valor_despesa_mensal_uc}
 \alias{calcular_valor_despesa_mensal_uc}
-\title{Mean monthly expenditure values (by type of expenditure)}
+\title{Calcular médias mensais de despesa (por tipo de despesa)}
 \usage{
 calcular_valor_despesa_mensal_uc(
-  pof_despesa,
+  df_pof_despesa_base,
   tipo_despesa = 0,
-  pof_morador,
+  df_pof_morador_base,
   uf = "all",
   regiao = "all"
 )
 }
 \arguments{
-\item{pof_despesa}{The name of the df with the expenditure data (string). See ler_pof_despesa}
+\item{df_pof_despesa_base}{O dataframe com os dados de despesa. Ver ler_pof_despesa}
 
-\item{pof_morador}{The path to MORADOR.txt}
+\item{df_pof_morador_base}{O dataframe com o registro MORADOR. Ver ler_pof_geral}
 
-\item{tipo_despesa=0}{The type (or types) of expenditure. Default to total expenditure. See indice_despesa}
-
-\item{uf="all"}{The relevant federal unit (numeric). NOT IMPLEMENTED YET}
-
-\item{regiao="all"}{The relevant macroregion (character code). NOT IMPLEMENTED YET}
+\item{tipo_despesa=0}{Tipo (ou tipos) de despesa. Ver indice_despesa}
 }
 \value{
-The mean deflated monthly expenditure
+O valor médio real mensal do tipo de despesa escolhido
 }
 \description{
-Mean monthly expenditure values (by type of expenditure)
+Calcular médias mensais de despesa (por tipo de despesa)
 }
 \examples{
-calcular_valor_despesa_mensal_uc(pof_despesa = "df_expenditure", tipo_despesa = c(0,1,2));
+calcular_valor_despesa_mensal_uc(df_pof_despesa_base = "pof_despesa", tipo_despesa = c(0,1,2), df_pof_morador_base = "pof_morador");
+}
+\seealso{
+ler_pof_despesa, ler_pof_despesa_todas, montar_tabela_despesa_uc
 }

@@ -2,19 +2,24 @@
 % Please edit documentation in R/ler_pof_rendimento.R
 \name{ler_pof_rendimento}
 \alias{ler_pof_rendimento}
-\title{Load POF microdata - income information only}
+\title{Carregar microdados da POF - todas as informações de rendimento}
 \usage{
-ler_pof_rendimento(microdata_file)
+ler_pof_rendimento(arquivo_microdados)
 }
 \arguments{
-\item{microdata_file}{The specific microdata file to be loaded}
+\item{arquivo_microdados}{O caminho até o arquivo txt do registro de rendimento a ser carregado}
 }
 \value{
-The file-specific microdata as a dataframe (all cols to character)
+Um dataframe com as informações de rendimento do registro
 }
 \description{
-Load POF microdata - income information only
+Carregar microdados da POF - todos os registros com dados de rendimento
+Aluguel estimado, caderneta coletiva, despesa coletiva, individual, outros rendimentos e rendimento trabalho
+OBS: É preciso que o nome dos arquivos .txt esteja igual a como foi baixado!!
 }
 \examples{
-ler_pof_rendimento("./data/microdatafile.txt");
+ler_pof_rendimento("./microdados/ALUGUEL_ESTIMADO.txt");
+}
+\seealso{
+ler_pof_rendimento_todas, baixar_pof
 }

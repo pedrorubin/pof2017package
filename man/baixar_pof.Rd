@@ -2,19 +2,19 @@
 % Please edit documentation in R/baixar_pof.R
 \name{baixar_pof}
 \alias{baixar_pof}
-\title{Download and unzip POF microdata}
+\title{Baixar e descompactar microdados da POF}
 \usage{
-baixar_pof(destination_path)
+baixar_pof(pasta_destino)
 }
 \arguments{
-\item{destination_path}{The folder in which the microdata files are to be stored (if folder does not exist, it will be created)}
+\item{pasta_destino}{Pasta na qual os microdados serão guardados (se não existir, será criada automaticamente)}
 }
 \value{
-The microdata files in the designated path
+Os microdados na pasta designada
 }
 \description{
-Download and unzip POF microdata
+Baixar e descompactar microdados da POF
 }
 \examples{
-baixar_pof("./microdata");
+baixar_pof("./microdados");
 }

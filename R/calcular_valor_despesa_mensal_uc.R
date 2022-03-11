@@ -1,17 +1,17 @@
-calcular_valor_despesa_mensal_uc_one <- function(pof_despesa,
+calcular_valor_despesa_mensal_uc_one <- function(df_pof_despesa_base,
                                                  tipo_despesa = 0,
-                                                 pof_morador,
+                                                 df_pof_morador_base,
                                                  uf = "all",
                                                  regiao = "all"){
 
-  pof_uc <- ler_pof_geral(pof_morador) %>%
+  pof_uc <- df_pof_morador_base %>%
     mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC)) %>%
     filter(V0306 == "1") %>%
     select(ID_uc, UF, RENDA_TOTAL, PESO_FINAL) %>%
     mutate(across(.fns = as.numeric)) %>%
     mutate(numero_familias = sum(PESO_FINAL))
 
-  pof_despesax <- get(pof_despesa) %>%
+  pof_despesax <- df_pof_despesa_base %>%
     right_join(pof_uc, by = c("ID_uc", "PESO_FINAL"))
 
 
@@ -120,8 +120,7 @@ calcular_valor_despesa_mensal_uc_one <- function(pof_despesa,
              Descricao = Descricao_5)
   }
   else{
-    cat("Olhar no arquivo memoria_calculo/Indice_Despesa os codigos validos de
-        categoria de despesa \n")
+    cat("ver tabela indice_despesa para os codigos de despesa")
     stop()
   }
 
@@ -130,28 +129,27 @@ calcular_valor_despesa_mensal_uc_one <- function(pof_despesa,
   despesa_nivel
 }
 
-#' Mean monthly expenditure values (by type of expenditure)
+#' Calcular médias mensais de despesa (por tipo de despesa)
 #'
-#' Mean monthly expenditure values (by type of expenditure)
-#' @param pof_despesa The name of the df with the expenditure data (string). See ler_pof_despesa
-#' @param tipo_despesa=0 The type (or types) of expenditure. Default to total expenditure. See indice_despesa
-#' @param pof_morador The path to MORADOR.txt
-#' @param uf="all" The relevant federal unit (numeric). NOT IMPLEMENTED YET
-#' @param regiao="all" The relevant macroregion (character code). NOT IMPLEMENTED YET
-#' @return The mean deflated monthly expenditure
+#' Calcular médias mensais de despesa (por tipo de despesa)
+#' @param df_pof_despesa_base O dataframe com os dados de despesa. Ver ler_pof_despesa
+#' @param tipo_despesa=0 Tipo (ou tipos) de despesa. Ver indice_despesa
+#' @param df_pof_morador_base O dataframe com o registro MORADOR. Ver ler_pof_geral
+#' @return O valor médio real mensal do tipo de despesa escolhido
+#' @seealso ler_pof_despesa, ler_pof_despesa_todas, montar_tabela_despesa_uc
 #' @examples
-#' calcular_valor_despesa_mensal_uc(pof_despesa = "df_expenditure", tipo_despesa = c(0,1,2));
+#' calcular_valor_despesa_mensal_uc(df_pof_despesa_base = "pof_despesa", tipo_despesa = c(0,1,2), df_pof_morador_base = "pof_morador");
 #' @export
 
-calcular_valor_despesa_mensal_uc <- function(pof_despesa,
+calcular_valor_despesa_mensal_uc <- function(df_pof_despesa_base,
                                              tipo_despesa = 0,
-                                             pof_morador,
+                                             df_pof_morador_base,
                                              uf = "all",
                                              regiao = "all"){
 
-  lista_pof <- list(pof_despesa = pof_despesa,
+  lista_pof <- list(df_pof_despesa_base = df_pof_despesa_base,
                     tipo_despesa = tipo_despesa,
-                    pof_morador = pof_morador)
+                    df_pof_morador_base = df_pof_morador_base)
 
   lista_despesa_uc <- pmap_dfr(lista_pof,
                                calcular_valor_despesa_mensal_uc_one)

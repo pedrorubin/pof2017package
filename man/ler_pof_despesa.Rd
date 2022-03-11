@@ -2,19 +2,24 @@
 % Please edit documentation in R/ler_pof_despesa.R
 \name{ler_pof_despesa}
 \alias{ler_pof_despesa}
-\title{Load POF microdata - expenditure information only}
+\title{Carregar microdados da POF - todas as informações de despesa}
 \usage{
-ler_pof_despesa(microdata_file)
+ler_pof_despesa(arquivo_microdados)
 }
 \arguments{
-\item{microdata_file}{The specific microdata file to be loaded}
+\item{arquivo_microdados}{O caminho até o arquivo txt do registro de despesa a ser carregado}
 }
 \value{
-The file-specific microdata as a dataframe (all cols to character)
+Um dataframe com as informações de despesa do registro
 }
 \description{
-Load POF microdata - expenditure information only
+Carregar microdados da POF - todos os registros com dados de despesa
+Aluguel estimado, caderneta coletiva, despesa coletiva, despesa individual, outros rendimentos e rendimento trabalho
+OBS: É preciso que o nome dos arquivos .txt esteja igual a como foi baixado!!
 }
 \examples{
-ler_pof_despesa("./data/microdatafile.txt");
+ler_pof_despesa("./microdados/ALUGUEL_ESTIMADO.txt");
+}
+\seealso{
+ler_pof_despesa_todas, baixar_pof
 }

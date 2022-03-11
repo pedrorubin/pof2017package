@@ -1,28 +1,32 @@
-#' Load POF microdata - income information only
+#' Carregar microdados da POF - todas as informações de rendimento
 #'
-#' Load POF microdata - income information only
-#' @param microdata_file The specific microdata file to be loaded
-#' @return The file-specific microdata as a dataframe (all cols to character)
-#' @examples ler_pof_rendimento("./data/microdatafile.txt");
+#' Carregar microdados da POF - todos os registros com dados de rendimento
+#' Aluguel estimado, caderneta coletiva, despesa coletiva, individual, outros rendimentos e rendimento trabalho
+#' OBS: É preciso que o nome dos arquivos .txt esteja igual a como foi baixado!!
+#'
+#' @param arquivo_microdados O caminho até o arquivo txt do registro de rendimento a ser carregado
+#' @return Um dataframe com as informações de rendimento do registro
+#' @examples ler_pof_rendimento("./microdados/ALUGUEL_ESTIMADO.txt");
+#' @seealso ler_pof_rendimento_todas, baixar_pof
 #' @export
 
 
-ler_pof_rendimento <- function(microdata_file){
+ler_pof_rendimento <- function(arquivo_microdados){
 
-  if(!(str_detect(microdata_file,
+  if(!(str_detect(arquivo_microdados,
                   regex("aluguel_estimado|caderneta_coletiva|despesa_coletiva|despesa_individual|outros_rendimentos|rendimento_trabalho",
                         ignore_case = TRUE)))){
 
-    cat("Os registros de POF 2017-2018 aceitos para a despesa sao: \n
+    cat("Os registros de POF 2017-2018 aceitos para o rendimento sao: \n
           ALUGUEL_ESTIMADO, CADERNETA_COLETIVA, DESPESA_COLETIVA, \n
           DESPESA_INDIVIDUAL, OUTROS_RENDIMENTOS, RENDIMENTO_TRABALHO \n")
     stop()
   }
 
 
-  if(str_detect(microdata_file, regex("rendimento_trabalho", ignore_case = TRUE))){
+  if(str_detect(arquivo_microdados, regex("rendimento_trabalho", ignore_case = TRUE))){
 
-    ler_pof_geral(microdata_file) %>%
+    ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              across(.cols = c(V9001, V8500_DEFLA,
                               V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
@@ -34,9 +38,9 @@ ler_pof_rendimento <- function(microdata_file){
              V9002 = NA) %>%
       select(ID_uc, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
   }
-  else if(str_detect(microdata_file, regex("outros_rendimentos", ignore_case = TRUE))){
+  else if(str_detect(arquivo_microdados, regex("outros_rendimentos", ignore_case = TRUE))){
 
-    ler_pof_geral(microdata_file) %>%
+    ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              across(.cols = c(V9001, V8500_DEFLA,
                               V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
@@ -51,9 +55,9 @@ ler_pof_rendimento <- function(microdata_file){
 
 
   }
-  else if(str_detect(microdata_file, regex("despesa_coletiva", ignore_case = TRUE))){
+  else if(str_detect(arquivo_microdados, regex("despesa_coletiva", ignore_case = TRUE))){
 
-    ler_pof_geral(microdata_file) %>%
+    ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              across(.fns = as.numeric),
              valor_mensal = ifelse( QUADRO==10|QUADRO==19,
@@ -63,9 +67,9 @@ ler_pof_rendimento <- function(microdata_file){
              pof = "DESPESA_COLETIVA") %>%
       select(ID_uc, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
   }
-  else if(str_detect(microdata_file, regex("caderneta_coletiva", ignore_case = TRUE))){
+  else if(str_detect(arquivo_microdados, regex("caderneta_coletiva", ignore_case = TRUE))){
 
-    ler_pof_geral(microdata_file) %>%
+    ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              across(.fns = as.numeric)) %>%
       filter(V9002 >= 7) %>%
@@ -75,9 +79,9 @@ ler_pof_rendimento <- function(microdata_file){
       select(ID_uc, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
 
   }
-  else if(str_detect(microdata_file, regex("despesa_individual", ignore_case = TRUE))){
+  else if(str_detect(arquivo_microdados, regex("despesa_individual", ignore_case = TRUE))){
 
-    ler_pof_geral(microdata_file) %>%
+    ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              across(.fns = as.numeric)) %>%
       filter(V9002 >= 7) %>%
@@ -88,9 +92,9 @@ ler_pof_rendimento <- function(microdata_file){
              pof = "DESPESA_INDIVIDUAL") %>%
       select(ID_uc, PESO_FINAL, Codigo, V9002, valor_mensal, pof)
   }
-  else if(str_detect(microdata_file, regex("aluguel_estimado", ignore_case = TRUE))){
+  else if(str_detect(arquivo_microdados, regex("aluguel_estimado", ignore_case = TRUE))){
 
-    ler_pof_geral(microdata_file) %>%
+    ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              across(.fns = as.numeric),
              valor_mensal = V8000_DEFLA*V9011*FATOR_ANUALIZACAO/12,
