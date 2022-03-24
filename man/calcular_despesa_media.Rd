@@ -7,9 +7,7 @@
 calcular_despesa_media(
   df_pof_despesa_base,
   tipo_despesa = 0,
-  df_pof_morador_base,
-  uf = "all",
-  regiao = "all"
+  df_pof_morador_base
 )
 }
 \arguments{

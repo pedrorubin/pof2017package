@@ -143,9 +143,7 @@ calcular_valor_despesa_mensal_uc_one <- function(df_pof_despesa_base,
 
 calcular_despesa_media <- function(df_pof_despesa_base,
                                              tipo_despesa = 0,
-                                             df_pof_morador_base,
-                                             uf = "all",
-                                             regiao = "all"){
+                                             df_pof_morador_base){
 
   lista_pof <- list(df_pof_despesa_base = df_pof_despesa_base,
                     tipo_despesa = tipo_despesa,
