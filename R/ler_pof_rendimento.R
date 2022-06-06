@@ -92,7 +92,7 @@ ler_pof_rendimento <- function(arquivo_microdados){
              across(.cols = c(V9001, V8000_DEFLA, V9002,
                               FATOR_ANUALIZACAO, PESO_FINAL),
                     .fns = as.numeric)) %>%
-      filter(V9002 >= 7) %>%
+      # filter(V9002 >= 7) %>%
       mutate(valor_mensal = (V8000_DEFLA*FATOR_ANUALIZACAO)/12,
              Codigo = trunc(V9001/100),
              pof = "CADERNETA_COLETIVA") %>%
@@ -110,7 +110,7 @@ ler_pof_rendimento <- function(arquivo_microdados){
              across(.cols = c(V9001, V8000_DEFLA, V9002,
                               V9011, FATOR_ANUALIZACAO, PESO_FINAL),
                     .fns = as.numeric)) %>%
-      filter(V9002 >= 7) %>%
+      # filter(V9002 >= 7) %>%
       mutate(valor_mensal = ifelse( QUADRO==44|QUADRO==47|QUADRO==48|QUADRO==49|QUADRO==50 ,
                                     V8000_DEFLA*V9011*FATOR_ANUALIZACAO/12 ,
                                     V8000_DEFLA*FATOR_ANUALIZACAO/12),
