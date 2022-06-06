@@ -27,8 +27,11 @@ ler_pof_rendimento <- function(arquivo_microdados){
   if(str_detect(arquivo_microdados, regex("rendimento_trabalho", ignore_case = TRUE))){
 
     ler_pof_geral(arquivo_microdados) %>%
-      mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
-             ID_pes = NA,
+      mutate(NUM_DOM = str_pad(NUM_DOM, 2, "left", "0"),
+             NUM_UC = str_pad(NUM_UC, 2, "left", "0"),
+             COD_INFORMANTE = str_pad(COD_INFORMANTE, 2, "left", "0"),
+             ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
+             ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
              across(.cols = c(V9001, V8500_DEFLA,
                               V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
                     .fns = as.numeric)) %>%
@@ -42,12 +45,15 @@ ler_pof_rendimento <- function(arquivo_microdados){
   else if(str_detect(arquivo_microdados, regex("outros_rendimentos", ignore_case = TRUE))){
 
     ler_pof_geral(arquivo_microdados) %>%
-      mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
+      mutate(NUM_DOM = str_pad(NUM_DOM, 2, "left", "0"),
+             NUM_UC = str_pad(NUM_UC, 2, "left", "0"),
+             COD_INFORMANTE = str_pad(COD_INFORMANTE, 2, "left", "0"),
+             ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
              across(
                # .cols = c(V9001, V8500_DEFLA,
                #                V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
-                    .fns = as.numeric)) %>%
+               .fns = as.numeric)) %>%
       mutate(valor_mensal = ifelse( QUADRO==54,
                                     (V8500_DEFLA*V9011*FATOR_ANUALIZACAO)/12,
                                     (V8500_DEFLA*FATOR_ANUALIZACAO)/12 ),
@@ -61,7 +67,9 @@ ler_pof_rendimento <- function(arquivo_microdados){
   else if(str_detect(arquivo_microdados, regex("despesa_coletiva", ignore_case = TRUE))){
 
     ler_pof_geral(arquivo_microdados) %>%
-      mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
+      mutate(NUM_DOM = str_pad(NUM_DOM, 2, "left", "0"),
+             NUM_UC = str_pad(NUM_UC, 2, "left", "0"),
+             ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              ID_pes = NA,
              across(.fns = as.numeric),
              valor_mensal = ifelse( QUADRO==10|QUADRO==19,
@@ -75,6 +83,8 @@ ler_pof_rendimento <- function(arquivo_microdados){
 
     ler_pof_geral(arquivo_microdados) %>%
       mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
+             NUM_DOM = str_pad(NUM_DOM, 2, "left", "0"),
+             NUM_UC = str_pad(NUM_UC, 2, "left", "0"),
              ID_pes = NA,
              across(.fns = as.numeric)) %>%
       filter(V9002 >= 7) %>%
@@ -87,8 +97,11 @@ ler_pof_rendimento <- function(arquivo_microdados){
   else if(str_detect(arquivo_microdados, regex("despesa_individual", ignore_case = TRUE))){
 
     ler_pof_geral(arquivo_microdados) %>%
-      mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
-             ID_pes = NA,
+      mutate(NUM_DOM = str_pad(NUM_DOM, 2, "left", "0"),
+             NUM_UC = str_pad(NUM_UC, 2, "left", "0"),
+             COD_INFORMANTE = str_pad(COD_INFORMANTE, 2, "left", "0"),
+             ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
+             ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
              across(.fns = as.numeric)) %>%
       filter(V9002 >= 7) %>%
       mutate(valor_mensal = ifelse( QUADRO==44|QUADRO==47|QUADRO==48|QUADRO==49|QUADRO==50 ,
@@ -101,7 +114,9 @@ ler_pof_rendimento <- function(arquivo_microdados){
   else if(str_detect(arquivo_microdados, regex("aluguel_estimado", ignore_case = TRUE))){
 
     ler_pof_geral(arquivo_microdados) %>%
-      mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
+      mutate(NUM_DOM = str_pad(NUM_DOM, 2, "left", "0"),
+             NUM_UC = str_pad(NUM_UC, 2, "left", "0"),
+             ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              ID_pes = NA,
              across(.fns = as.numeric),
              valor_mensal = V8000_DEFLA*V9011*FATOR_ANUALIZACAO/12,

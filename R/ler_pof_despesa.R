@@ -27,7 +27,9 @@ ler_pof_despesa <- function(arquivo_microdados){
     pof <- ler_pof_geral(arquivo_microdados) %>%
       mutate(across(.cols = c(V8000_DEFLA,V9011,FATOR_ANUALIZACAO,PESO_FINAL),
                     .fns = as.numeric)) %>%
-      mutate(ID_uc = str_c(COD_UPA,NUM_DOM,NUM_UC),
+      mutate(NUM_DOM = str_pad(NUM_DOM, 2, "left", "0"),
+             NUM_UC = str_pad(NUM_UC, 2, "left", "0"),
+             ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              valor_mensal=(V8000_DEFLA*V9011*FATOR_ANUALIZACAO)/12,
              inss_mensal = NA,
              prev_pub_mensal = NA,
@@ -45,7 +47,9 @@ ler_pof_despesa <- function(arquivo_microdados){
                               V8000_DEFLA,V1904_DEFLA,V9011,
                               FATOR_ANUALIZACAO,PESO_FINAL),
                     .fns = as.numeric)) %>%
-      mutate(ID_uc = str_c(COD_UPA,NUM_DOM,NUM_UC),
+      mutate(NUM_DOM = str_pad(NUM_DOM, 2, "left", "0"),
+             NUM_UC = str_pad(NUM_UC, 2, "left", "0"),
+             ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              valor_mensal = ifelse( QUADRO==10|QUADRO==19,
                                     (V8000_DEFLA*V9011*FATOR_ANUALIZACAO)/12,
                                     (V8000_DEFLA*FATOR_ANUALIZACAO)/12),
@@ -63,7 +67,9 @@ ler_pof_despesa <- function(arquivo_microdados){
     pof <- ler_pof_geral(arquivo_microdados) %>%
       mutate(across(.cols = c(V8000_DEFLA,FATOR_ANUALIZACAO,PESO_FINAL),
                     .fns = as.numeric)) %>%
-      mutate(ID_uc = str_c(COD_UPA,NUM_DOM,NUM_UC),
+      mutate(NUM_DOM = str_pad(NUM_DOM, 2, "left", "0"),
+             NUM_UC = str_pad(NUM_UC, 2, "left", "0"),
+             ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              valor_mensal=(V8000_DEFLA*FATOR_ANUALIZACAO)/12,
              inss_mensal = NA,
              prev_pub_mensal = NA,
@@ -79,7 +85,9 @@ ler_pof_despesa <- function(arquivo_microdados){
     pof <- ler_pof_geral(arquivo_microdados) %>%
       mutate(across(.cols = c(V8000_DEFLA,FATOR_ANUALIZACAO,PESO_FINAL, V9011),
                     .fns = as.numeric)) %>%
-      mutate(ID_uc = str_c(COD_UPA,NUM_DOM,NUM_UC),
+      mutate(NUM_DOM = str_pad(NUM_DOM, 2, "left", "0"),
+             NUM_UC = str_pad(NUM_UC, 2, "left", "0"),
+             ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              valor_mensal = ifelse( QUADRO==44|QUADRO==47|QUADRO==48|QUADRO==49|QUADRO==50,
                                     (V8000_DEFLA*V9011*FATOR_ANUALIZACAO)/12,
                                     (V8000_DEFLA*FATOR_ANUALIZACAO)/12),
@@ -98,7 +106,9 @@ ler_pof_despesa <- function(arquivo_microdados){
       mutate(across(.cols = c(V531112_DEFLA,V531122_DEFLA,V531132_DEFLA,
                               V9011,FATOR_ANUALIZACAO,PESO_FINAL),
                     .fns = as.numeric)) %>%
-      mutate(ID_uc = str_c(COD_UPA,NUM_DOM,NUM_UC),
+      mutate(NUM_DOM = str_pad(NUM_DOM, 2, "left", "0"),
+             NUM_UC = str_pad(NUM_UC, 2, "left", "0"),
+             ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              valor_mensal = NA,
              inss_mensal = NA,
              prev_pub_mensal=(V531112_DEFLA*V9011*FATOR_ANUALIZACAO)/12,
@@ -114,7 +124,9 @@ ler_pof_despesa <- function(arquivo_microdados){
     pof <- ler_pof_geral(arquivo_microdados) %>%
       mutate(across(.cols = c(V8501_DEFLA,V9011,FATOR_ANUALIZACAO,PESO_FINAL),
                     .fns = as.numeric)) %>%
-      mutate(ID_uc = str_c(COD_UPA,NUM_DOM,NUM_UC),
+      mutate(NUM_DOM = str_pad(NUM_DOM, 2, "left", "0"),
+             NUM_UC = str_pad(NUM_UC, 2, "left", "0"),
+             ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              deducao_mensal = ifelse( QUADRO==54,
                                       (V8501_DEFLA*V9011*FATOR_ANUALIZACAO)/12,
                                       (V8501_DEFLA*FATOR_ANUALIZACAO)/12),
