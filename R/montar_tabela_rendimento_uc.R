@@ -311,7 +311,8 @@ montar_tabela_rendimento_uc <- function(df_pof_rendimento_base,
            ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC)) %>%
     filter(V0306 == "1") %>%
     # select(ID_uc, PESO_FINAL) %>%
-    mutate(across(.fns = as.numeric),
+    mutate(across(.cols = -c("ID_uc"),
+                  .fns = as.numeric),
            numero_familias = sum(PESO_FINAL)) %>%
     left_join(df_rendimento_uc, by = c("ID_uc", "PESO_FINAL"))
 }
