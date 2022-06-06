@@ -10,7 +10,8 @@ calcular_valor_despesa_mensal_uc_one <- function(df_pof_despesa_base,
            ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC)) %>%
     filter(V0306 == "1") %>%
     select(ID_uc, UF, RENDA_TOTAL, PESO_FINAL) %>%
-    mutate(across(.fns = as.numeric)) %>%
+    mutate(across(.cols = -c(ID_uc),
+                  .fns = as.numeric)) %>%
     mutate(numero_familias = sum(PESO_FINAL))
 
   pof_despesax <- get(df_pof_despesa_base) %>%

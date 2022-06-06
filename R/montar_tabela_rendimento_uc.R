@@ -18,8 +18,7 @@ montar_tabela_rendimento_uc_one <- function(df_pof_rendimento_base,
         group_by(ID_uc, Descricao_2) %>%
         summarise(valor = sum(valor_mensal, na.rm = T),
                   PESO_FINAL = unique(PESO_FINAL)) %>%
-        ungroup() %>%
-        mutate(ID_uc = as.numeric(ID_uc))
+        ungroup()
     }
     else{
       pof_rendimento_grupo <- pof_rendimentox %>%
@@ -28,8 +27,7 @@ montar_tabela_rendimento_uc_one <- function(df_pof_rendimento_base,
         group_by(ID_uc) %>%
         summarise(rendimento_monet = sum(valor_mensal, na.rm = T),
                   PESO_FINAL = unique(PESO_FINAL)) %>%
-        ungroup() %>%
-        mutate(ID_uc = as.numeric(ID_uc))
+        ungroup()
     }
 
   }
@@ -86,8 +84,7 @@ montar_tabela_rendimento_uc_one <- function(df_pof_rendimento_base,
       rowwise() %>%
       mutate(rendimento_naomonet = sum(dif1, dif2, na.rm = T)) %>%
       ungroup() %>%
-      select(-starts_with("dif"))  %>%
-      mutate(ID_uc = as.numeric(ID_uc))
+      select(-starts_with("dif"))
   }
   # variacao patrimonial
   if(indicador_patrimonial == 1){
@@ -220,8 +217,7 @@ montar_tabela_rendimento_uc_one <- function(df_pof_rendimento_base,
       rowwise() %>%
       mutate(variacao_patrimonial = sum(dif1,dif2,dif3,dif4,dif5)) %>%
       ungroup() %>%
-      select(-starts_with("dif")) %>%
-      mutate(ID_uc = as.numeric(ID_uc))
+      select(-starts_with("dif"))
 
   }
 
