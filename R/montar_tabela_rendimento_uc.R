@@ -9,7 +9,8 @@ montar_tabela_rendimento_uc_one <- function(df_pof_rendimento_base,
   #rendimento
   if(indicador_rend == 1){
 
-    pof_rendimentox <- get(df_pof_rendimento_base)
+    pof_rendimentox <- get(df_pof_rendimento_base) %>%
+      mutate(V9002 = as.numeric(V9002))
 
     if(tipo_rendimento %in% c(11,12,13,14)){
       pof_rendimento_grupo <- pof_rendimentox %>%
