@@ -32,8 +32,9 @@ ler_pof_rendimento <- function(arquivo_microdados){
              COD_INFORMANTE = str_pad(COD_INFORMANTE, 2, "left", "0"),
              ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
-             across(.cols = c(V9001, V8500_DEFLA,
-                              V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
+             across(
+               .cols = c(V9001, V8500_DEFLA,
+                              V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc, ID_pes),
                     .fns = as.numeric)) %>%
       filter(is.na(V8500_DEFLA) == FALSE) %>%
       mutate(valor_mensal = V8500_DEFLA*V9011*FATOR_ANUALIZACAO/12,
@@ -51,8 +52,8 @@ ler_pof_rendimento <- function(arquivo_microdados){
              ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
              across(
-               # .cols = c(V9001, V8500_DEFLA,
-               #                V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc),
+               .cols = c(V9001, V8500_DEFLA,
+                              V9011, FATOR_ANUALIZACAO, PESO_FINAL, ID_uc, ID_pes),
                .fns = as.numeric)) %>%
       mutate(valor_mensal = ifelse( QUADRO==54,
                                     (V8500_DEFLA*V9011*FATOR_ANUALIZACAO)/12,
