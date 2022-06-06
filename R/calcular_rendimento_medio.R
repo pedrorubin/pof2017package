@@ -42,7 +42,7 @@ calcular_valor_rendimento_mensal_uc_one <- function(df_pof_rendimento_base,
       filter(pof %in% c("DESPESA_COLETIVA",
                         "DESPESA_INDIVIDUAL",
                         "CADERNETA_COLETIVA"),
-             V9002 >= 7) %>%
+             as.numeric(V9002) >= 7) %>%
       group_by(ID_uc) %>%
       summarise(dif1 = sum(valor_mensal,na.rm=T),
                 PESO_FINAL = unique(PESO_FINAL)) %>%
@@ -69,8 +69,8 @@ calcular_valor_rendimento_mensal_uc_one <- function(df_pof_rendimento_base,
       filter(pof == "DESPESA_COLETIVA")
 
     parte2b <- despesa_coletiva %>%
-      mutate(V9002 = as.numeric(V9002)) %>%
-      filter(V9002 <= 6,
+      # mutate(V9002 = as.numeric(V9002)) %>%
+      filter(as.numeric(V9002) <= 6,
              Codigo %in% codigos_rend_naomonet) %>%
       group_by(ID_uc) %>%
       summarise(dif2b = sum(valor_mensal),
