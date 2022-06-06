@@ -34,8 +34,8 @@ ler_pof_rendimento <- function(arquivo_microdados){
              ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
              across(
                .cols = c(V9001, V8500_DEFLA,
-                              V9011, FATOR_ANUALIZACAO, PESO_FINAL),
-                    .fns = as.numeric)) %>%
+                         V9011, FATOR_ANUALIZACAO, PESO_FINAL),
+               .fns = as.numeric)) %>%
       filter(is.na(V8500_DEFLA) == FALSE) %>%
       mutate(valor_mensal = V8500_DEFLA*V9011*FATOR_ANUALIZACAO/12,
              Codigo = trunc(as.numeric(V9001)/100),
@@ -53,7 +53,7 @@ ler_pof_rendimento <- function(arquivo_microdados){
              ID_pes = str_c(COD_UPA, NUM_DOM, NUM_UC, COD_INFORMANTE),
              across(
                .cols = c(V9001, V8500_DEFLA,
-                              V9011, FATOR_ANUALIZACAO, PESO_FINAL),
+                         V9011, FATOR_ANUALIZACAO, PESO_FINAL),
                .fns = as.numeric)) %>%
       mutate(valor_mensal = ifelse( QUADRO==54,
                                     (V8500_DEFLA*V9011*FATOR_ANUALIZACAO)/12,
@@ -85,9 +85,9 @@ ler_pof_rendimento <- function(arquivo_microdados){
   else if(str_detect(arquivo_microdados, regex("caderneta_coletiva", ignore_case = TRUE))){
 
     ler_pof_geral(arquivo_microdados) %>%
-      mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
-             NUM_DOM = str_pad(NUM_DOM, 2, "left", "0"),
+      mutate(NUM_DOM = str_pad(NUM_DOM, 2, "left", "0"),
              NUM_UC = str_pad(NUM_UC, 2, "left", "0"),
+             ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              ID_pes = NA,
              across(.cols = c(V9001, V8000_DEFLA,
                               FATOR_ANUALIZACAO, PESO_FINAL),

@@ -286,7 +286,7 @@ calcular_valor_rendimento_mensal_uc_one <- function(df_pof_rendimento_base,
            ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC)) %>%
     filter(V0306 == "1") %>%
     select(ID_uc, PESO_FINAL, UF) %>%
-    mutate(across(.fns = as.numeric)) %>%
+    mutate(PESO_FINAL = as.numeric(PESO_FINAL)) %>%
     left_join(pof_final, by = c("ID_uc", "PESO_FINAL"))
 
 
