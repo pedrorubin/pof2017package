@@ -5,7 +5,9 @@ calcular_valor_despesa_mensal_uc_one <- function(df_pof_despesa_base,
                                                  regiao = "all"){
 
   pof_uc <- get(df_pof_morador_base) %>%
-    mutate(ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC)) %>%
+    mutate(NUM_DOM = str_pad(NUM_DOM, 2, "left", "0"),
+           NUM_UC = str_pad(NUM_UC, 2, "left", "0"),
+           ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC)) %>%
     filter(V0306 == "1") %>%
     select(ID_uc, UF, RENDA_TOTAL, PESO_FINAL) %>%
     mutate(across(.fns = as.numeric)) %>%
