@@ -72,7 +72,7 @@ ler_pof_rendimento <- function(arquivo_microdados){
              NUM_UC = str_pad(NUM_UC, 2, "left", "0"),
              ID_uc = str_c(COD_UPA, NUM_DOM, NUM_UC),
              ID_pes = NA,
-             across(.cols = c(V9001, V8000_DEFLA,
+             across(.cols = c(V9001, V8000_DEFLA, V9002,
                               V9011, FATOR_ANUALIZACAO, PESO_FINAL),
                     .fns = as.numeric),
              valor_mensal = ifelse( QUADRO==10|QUADRO==19,
